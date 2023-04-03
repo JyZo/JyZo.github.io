@@ -29,3 +29,6 @@ end
 
 # google search
 gem 'jekyll-sitemap'
+
+# jekyll-compose
+gem 'jekyll-compose', group: [:jekyll_plugins]
