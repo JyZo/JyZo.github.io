@@ -153,5 +153,58 @@ public class Practice {
 개미집은 반드시 (2, 2)에 존재하기 때문에 개미는 (2, 2)에서 출발한다.  
 
 ```java
+public class Practice {
+    public static void main(String[] args) throws ParseException {
+        int arr[][] = new int[10][10];
+        int m;
+        Scanner scanner = new Scanner(System.in);
 
+        for(int k = 0;k<10;k++){
+            for(int j = 0;j<10;j++){
+                m = scanner.nextInt();
+                arr[k][j] = m;
+            }
+            System.out.println();
+        }
+
+        int x = 1;
+        int y = 1;
+        
+        while(arr[x][y]!=2){
+
+            System.out.println("x"+x+"y"+y);
+            arr[x][y] = 9;
+
+            if(arr[x][y+1] != 1){
+                y++;
+                System.out.println("y++");
+            }else if(arr[x+1][y] != 1){
+                x++;
+                System.out.println("x++");
+            }else{
+                break;
+            }
+
+        }
+        
+        for(int a = 0;a<10;a++) {
+            for (int b = 0; b < 10; b++) {
+                System.out.print(arr[a][b] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
 ```
+- 복습필요 : 시간을 상당히 오래 들였고 인터넷 참고도 좀 하였다 향후 재복습 해야할 문제
+
+<br/>
+<br/>
+
+드디어 최초의 소 카테고리 포스팅이 끝났다. 뭐라 기분이 참 묘하다.  
+예전 최초로 코딩을 시작 할 때 비슷한 난이도를 풀었을 때는 조금 복잡하다 느꼈을 수도 있겠으나  
+마지막 문제를 제외하고는 간단히 다 풀 수 있었고 그렇기에 빨리 다음 단계로 넘어가고  
+싶어서 꾸준히 하되 공부를 좀 더 책임감있고 꾸준히 할 수 있게 해주는 원동력이 되었다고 생각한다.  
+이제 처음 계획했던 대로 다음 나동빈님의 커리큘럼?을 따라가 보며 계속 공부해 보려고 한다.   
+<br/>
+<br/>
