@@ -8,6 +8,9 @@ tags: [Algorithm, theory]
 # 탐욕법(Greedy Algorithm)
 
 **현재 상황에서 지금 당장 좋은 것만 고르는 방법!!**
+--------------
+
+<br/>
 
 ![greedy1](/assets/img/post_img/greedy1.PNG "greedy1")
 
@@ -185,6 +188,67 @@ public class Practice {
 난 배열을 사용하였으나 정답상엔 ArrayList를 사용한 정도의 차이점이 있었다.
 <br/>
 <br/>
+
+
+# 구현(Implementation Algorithm)
+**머리속에 있는 알고리즘을 소스코드로 바꾸는 것!!**
+----------
+
+하지만 코딩테스트에서의 구현은 의미가 조금 다르다.
+
+**풀이를 떠오르는 것은 쉽지만 소스코드로 옮기는 것은 어려운문제!**
+---------
+특히나 많은 연습이 필요한 유형이다. 많은 코드 및 라이브러리를 알수록 유리하기 때문
+
+<br/>
+
+## 구현 문제 1 - 상하좌우
+> 여행가 A는 N x N 크기의 정사각형 공간 위에 서 있습니다. 이 공간은 1 x 1 크기의 정사각형으로 나누어져 있습니다. 가장 왼쪽 위 좌표는 (1,1)이며, 가장 오른쪽 아래 좌표는 (N,N)에 해당합니다. 여행가 A는 상,하,좌,우 방향으로 이동할 수 있으며, 시작 좌표는 항상 (1,1) 입니다. 우리 앞에는 여행가 A가 이동할 계획이 적힌 계획서가 놓여 있습니다.
+계획서에는 하나의 줄에 띄어쓰기를 기준으로 L(왼쪽),R(오른쪽),U(위쪽),D(아래쪽)이며
+이때 N x N 공간을 벗어나는 움직임은 무시됩니다. 여행가 A가 최종적으로 도착할 지점의 좌표(X,Y)를 출력하세요.
+
+```java
+public class Practice {
+    public static void main(String[] args) throws ParseException {
+        Scanner sc = new Scanner(System.in);
+
+        // N을 입력받기
+        int n = sc.nextInt();
+        sc.nextLine(); // 버퍼 비우기
+        String[] plans = sc.nextLine().split(" ");
+        int x = 1, y = 1;
+
+        // L, R, U, D에 따른 이동 방향
+        int[] dx = {0, 0, -1, 1};
+        int[] dy = {-1, 1, 0, 0};
+        char[] moveTypes = {'L', 'R', 'U', 'D'};
+
+        // 이동 계획을 하나씩 확인
+        for (int i = 0; i < plans.length; i++) {
+            char plan = plans[i].charAt(0);
+            // 이동 후 좌표 구하기
+            int nx = -1, ny = -1;
+            for (int j = 0; j < 4; j++) {
+                if (plan == moveTypes[j]) {
+                    nx = x + dx[j];
+                    ny = y + dy[j];
+                }
+            }
+            // 공간을 벗어나는 경우 무시
+            if (nx < 1 || ny < 1 || nx > n || ny > n) continue;
+            // 이동 수행
+            x = nx;
+            y = ny;
+        }
+
+        System.out.println(x + " " + y);
+    }
+}
+```
+이 문제도 처음 완전 노가다에 이방법이 아닌거 같아서 고민하다가 참고했다. 아이디어를 꼭 흡수하자.
+
+
+
 
 
 
