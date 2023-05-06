@@ -1,8 +1,8 @@
 ---
 title: Review List
 date: 2023-05-03 21:31 +0900
-categories: [Algorithm, review]
-tags: [Algorithm, review]
+categories: [Review, review]
+tags: [Review, review]
 ---
 
 # Review List
