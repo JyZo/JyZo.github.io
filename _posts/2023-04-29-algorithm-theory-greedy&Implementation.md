@@ -247,6 +247,120 @@ public class Practice {
 ```
 이 문제도 처음 완전 노가다에 이방법이 아닌거 같아서 고민하다가 참고했다. 아이디어를 꼭 흡수하자.
 
+## 구현문제2 - 시각
+> 정수 N이 입력되면 00시 00분 00초부터 N시 59분 59초까지의 모든 시각 중에서 3이 하나라도 포함되는 모든 경우의 수를 구하는 프로그램을 작성하세요.
+
+```java
+public class Practice {
+    public static void main(String[] args) throws ParseException {
+        int N;
+        int count = 0;
+        int HH=24,MM=60,SS=60;
+
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+
+        for(int h = 0;h<=N;h++){
+            for(int m = 0;m<MM;m++){
+                for(int s = 0;s<SS;s++){
+                    if(String.valueOf(h).contains("3") || String.valueOf(m).contains("3") || String.valueOf(s).contains("3")) {
+                        count++;
+                    }
+                }
+            }
+        }
+        System.out.println(count);
+    }
+}
+```
+
+<br/>
+<br/>
+
+## 구현문제3 - 왕실의 나이트
+> 왕실 정원은 체스판과 같은 8 X 8 좌표 평면이다. 나이트는 L자 형태로만 이동할 수 있으며 정원 밖으로는 나갈 수 없다. 나이트는 특정 위치에서 다음과 같은 2가지경우로 이동할 수 있습니다.  
+>1. 수평으로 두 칸 이동한 뒤에 수직으로 한 칸 이동하기
+>2. 수직으로 두칸 이동한 뒤에 수평으로 한 칸 이동하기  
+>이처럼 나이트의 위치가 주어졌을 때 나이트가 이동할 수 있는 경우의 수를 출력하는 프로그램을 작성하세요. 
+
+```java
+public class Practice {
+    public static void main(String[] args) throws ParseException {
+        String L;
+        int count = 0;
+
+        Scanner sc = new Scanner(System.in);
+        L = sc.next();
+
+        int move_x[] = {1,-1,2,-2,1,-1,2,-2};
+        int move_y[] = {2,2,1,1,-2,-2,-1,-1};
+
+        int x = L.charAt(0) - 'a';
+        int y = L.charAt(1) - '1';
+
+        for(int i = 0;i<8;i++){
+                int nx = x;
+                int ny = y;
+                
+                nx += move_x[i];
+                ny += move_y[i];
+
+                if(nx < 0 || ny < 0 || nx >8 || ny>8) continue;
+
+                count++;
+        }
+        System.out.println(count);
+    }
+}
+```
+저번에 풀었던 문제에 응용이 아주 조금 더 들어간 문제였다. 코딩테스트 공부요령을 잡을 수 있었다.  
+너무 오래 안 풀리는 문제는 빨리 학습하고 그 후 비슷한 문제를 풀며 학습하면 될것같다.
+
+<br/>
+<br/>
+
+## 구현문제4 - 문자열 재정렬
+> 알파벳 대문자와 숫자(0~9)로만 구성된 문자열이 입력으로 주어집니다. 이때 모든 알파벳을 오름차순으로 정렬하여 이어서 출력한 뒤에, 그 뒤에 모든 숫자를 더한 값을 이어서 출력합니다. 
+```java
+public class Practice {
+    public static void main(String[] args) throws ParseException {
+        String s;
+        int numTotal = 0;
+        Scanner sc = new Scanner(System.in);
+        s = sc.next();
+
+        ArrayList<Character> alphaArr = new ArrayList<>();
+        ArrayList<Character> numArr = new ArrayList<>();
+
+        for(int i = 0; i<s.length(); i++){
+            if(Character.isDigit(s.charAt(i))){
+                numArr.add(s.charAt(i));
+            }else{
+                alphaArr.add(s.charAt(i));
+            }
+        }
+
+        Collections.sort(alphaArr);
+        Collections.sort(numArr);
+
+        for(int k=0;k<alphaArr.size();k++){
+            System.out.print(alphaArr.get(k));
+        }
+
+        for(int j=0;j<numArr.size();j++){
+            numTotal+=Integer.parseInt(numArr.get(j).toString());
+        }
+        System.out.println(numTotal);
+    }
+}
+```
+정답상 이문제는 마지막 줄에 숫자를 출력시에 조건이 하나 빠져있었다.
+```java
+if(numTotal != 0){
+    System.out.println(numTotal);
+}
+```
+실제로 숫자값 없이 실행시키니 위에 선언된 0이 찍혀나왔고 오답이라고 봐도 무방한 판단이었다. 더 생각하자
 
 
 
