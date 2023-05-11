@@ -137,7 +137,7 @@ public class Practice {
 
 
 
-![DFS1](/assets/img/post_img/DFS1.PNG "DFS1")
+![DFS1](/assets/img/post_img/DFS1.gif "DFS1")
 
 
 
@@ -158,7 +158,7 @@ public class Practice {
     
 
 
-![BFS1](/assets/img/post_img/BFS1.PNG "BFS1")
+![BFS1](/assets/img/post_img/BFS1.gif "BFS1")
 <br/>
 https://www.codesdope.com/course/algorithms-dfs/
 
