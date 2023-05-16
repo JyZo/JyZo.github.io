@@ -363,6 +363,10 @@ if(numTotal != 0){
 실제로 숫자값 없이 실행시키니 위에 선언된 0이 찍혀나왔고 오답이라고 봐도 무방한 판단이었다. 더 생각하자
 
 
+#
+
+출처 - 나동빈 개발자님 유튜브[[https://www.youtube.com/@dongbinna](https://www.youtube.com/@dongbinna)]
+
 
 
 
