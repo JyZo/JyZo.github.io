@@ -125,6 +125,9 @@ public class Practice {
 - 컴퓨터가 함수를 연속호출하면 메모리의 스택프레임에 쌓이기에 스택을 사용해야 할 때 라이브러리 대신 이용하는  
 경우가 많다. 
 
+<br/>
+<br/>
+
 # DFS(Depth-First Search)
 
 1. **깊이 우선 탐색**이라고도 하며 그래프에서 깊은 부분을 우선탐색하는 알고리즘
@@ -196,7 +199,8 @@ public class Practice {
     }
 }
 ```
-
+<br/>
+<br/>
 
 # BFS(Breadth-First Search)
 
@@ -278,18 +282,142 @@ public class Practice {
 }
 ```
 
-#
+<br/>
+<br/>
 
-## DFS문제1 - 음료수 얼려먹기: 문제 설명 
+## DFS문제1 - 음료수 얼려먹기 
 > N X M 크기의 얼음 틀이 있습니다. 구멍이 뚫려 있는 부분은 0, 칸막이가 존재하는 부분은 1로 표시됩니다. 구멍이 뚫려있는 부분끼리 상,하,좌,우로 붙어 있는 경우 서로 연결되어 있는 것으로 간주합니다. 이때 얼음 틀의 모양이 주어졌을 때 생성되는 총 아이스크림의 개수를 구하는 프로그램을 작성하세요. 다음의 4 X 5 얼음 틀 예시에서는 아이스크림이 총 3개 생성됩니다. 
 
 ![DFSquest1](/assets/img/post_img/DFSquest1.PNG "DFSquest1")
 
 ```java
+public class Practice {
+    public static int N, M;
+    public static String ICE;
+    public static int ICEPACK[][] = new int[1000][1000];
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        M = sc.nextInt();
 
+        for(int i = 0;i<N;i++){
+            for(int j = 0;j<M;j++){
+                ICE = sc.next();
+                ICEPACK[i][j] = Integer.parseInt(ICE);
+            }
+        }
+
+        int result = 0;
+        for(int i = 0;i<N;i++){
+            for(int j = 0;j<M;j++){
+                if(dfs(i,j)){
+                    result++;
+                };
+            }
+            System.out.println();
+        }
+        System.out.println("result:"+result);
+    }
+    public static boolean dfs(int x,int y){
+
+        if(x <= -1 || x>= N || y<= -1 || y>= M){
+            return false;
+        }
+
+        if(ICEPACK[x][y] == 0){
+            ICEPACK[x][y] = 1;
+
+            dfs(x,y+1);
+            dfs(x,y-1);
+            dfs(x+1,y);
+            dfs(x-1,y);
+            return true;
+        }
+    return false;
+    }
+}
 ```
+
+- 이문제 같은 경우 아이디어는 어느정도 떠올렸으나 구현을 제대로 하지 못한 케이스 복습은 당연히 필수
+
 <br/>
 <br/>
+
+## BFS문제1 - 미로탈출 문제
+> 동빈이는 N X M 크기의 직사각형 형태의 미로에 갇혔습니다. 미로에는 여러 마리의 괴물이 있어 이를 피해 탈출해야 합니다. 동빈이의 위치는 (1,1)이며 미로의 출구는 (N,M)의 위치에 존재하며 한번에 한칸씩 이동할 수 있습니다. 이때 괴물이 있는 부분은 0으로, 괴물이 없는 부분은 1로 표시되어 있습니다. 이때 동빈이가 탈출하기 위해 움직여야 하는 최소 칸의 개수를 구하시오 
+
+```java
+public class Practice {
+    public static int N, M;
+    public static String LOAD;
+    public static int MAZE[][] = new int[1000][1000];
+    public static int dx[] = {-1,1,0,0};
+    public static int dy[] = {0,0,-1,1};
+
+    public static int bfs(int x, int y){
+        Queue<Node> q = new LinkedList<>();
+        q.offer(new Node(x,y));
+
+        while(!q.isEmpty()){
+            Node node = q.poll();
+            x = node.getX();
+            y = node.getY();
+
+            for(int i = 0; i<4; i++){
+                int nx = x+dx[i];
+                int ny = y+dy[i];
+
+                if(nx < 0 || nx >= N || ny <0 || ny >= M) continue;
+
+                if(MAZE[nx][ny] == 0) continue;
+
+                if(MAZE[nx][ny] == 1){
+                    MAZE[nx][ny] = MAZE[x][y] + 1;
+                    q.offer(new Node(nx,ny));
+                }
+            }
+        }
+        return MAZE[N-1][M-1];
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        M = sc.nextInt();
+        sc.nextLine();
+
+        for(int i = 0;i<N;i++){
+            for(int j = 0;j<M;j++){
+                LOAD = sc.next();
+                MAZE[i][j] = Integer.parseInt(LOAD);
+            }
+        }
+        System.out.println(bfs(0,0));
+    }
+}
+class Node{
+    private int x;
+    private int y;
+    public Node(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
+}
+```
+
+
+- BFS는 간선의 비용이 같을 때 최단거리 판단가능, 상하좌우 모든 거리가 1로 동일
+- 따라서 모든 노드의 최단거리 값을 기록하여 해결
+
+
+복습들이랑 공부가 많이 필요할 듯 하다...이전의 100제나 구현처럼 특별한 알고리즘이 들어가지 않을때와 비교해 난이도가 확 올랐다. 아무 힌트나 참고없이 구현을 점차 못하고 있다. 수학이라고 생각하고 빨리 이론들 끝내고 문제풀면서 숙련도들을 올려야 겠다. 
+
 
 #
 
