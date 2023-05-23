@@ -55,6 +55,8 @@ public class Practice {
 <br/>
 
 # 삽입정렬(insertion sorting)
+- 처리되지 않은 데이터를 하나씩 골라 적절한 위치에 삽입
+- 선택 정렬에 비해 구현
 
 
 
