@@ -56,7 +56,36 @@ public class Practice {
 
 # 삽입정렬(insertion sorting)
 - 처리되지 않은 데이터를 하나씩 골라 적절한 위치에 삽입
-- 선택 정렬에 비해 구현
+- 선택 정렬에 비해 구현난이도가 높지만, 일반적으로 효율적으로 동작
+
+```java
+public class Practice {
+    public static void main(String[] args) {
+        int n = 10;
+        int [] arr = {7,5,9,0,3,1,6,2,4,8};
+
+        for(int i = 1; i<n; i++){
+            for(int j = i; j>0; j--){
+                if(arr[j] < arr[j-1]){
+                    int temp = arr[j];
+                    arr[j] = arr[j-1];
+                    arr[j-1] = temp;
+                }
+                else break;
+            }
+        }
+        for(int i = 0;i<n;i++){
+            System.out.print(arr[i]+" ");
+        }
+    }
+}
+```
+
+삽입정렬의 시간 복잡도 
+----
+- 선택정렬과 같이 반복문이 두번들어가며 O(N<sup>2</sup>) 이다.
+- 현재의 리스트가 거의 정렬되어 있는 상태라면 매우 빠르게 동작
+
 
 
 
