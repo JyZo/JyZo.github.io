@@ -1,6 +1,7 @@
 ---
 title: sorting algorithm
 date: 2023-05-21 21:29 +0900
+author: JyZo
 categories: [Algorithm, theory]
 tags: [Algorithm, theory]
 ---
@@ -279,3 +280,6 @@ public class Practice {
 ```
 정렬 알고리즘자체는 직접 구현하는 것보다 라이브러리 구현된 것이 속도적 측면에서 훨씬 빨랐다. 물로 문제를 풀다보면 원리를 이해하고 직접 구현해야 할 일도 생길 것이기에 종류별로 포인트들을 잘 구별해 둬야겠다.
 
+#
+
+출처 - 나동빈 개발자님 유튜브[[https://www.youtube.com/@dongbinna](https://www.youtube.com/@dongbinna)]
