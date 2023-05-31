@@ -21,7 +21,7 @@ tags: [Tip, knowledge]
 
 ## 1. Active - Standby
 
-![HA1_AS](/assets/img/post_img/HA1_AS.JPG "HA1_AS")
+![HA1_AS](/assets/img/post_img/HA1_AS.jpg "HA1_AS")
 
 - 동일한 두 벌의 시스템을 만들어 두되, 하나의 시스템(Active)으로만 운영하며, 운영 시스템에 장애가 발생할 경우 다른 시스템(Standby)으로 즉시 전환하는 방식
 - 클러스터로 연결된 모든 서버는 hearbeat로 상태를 주고받음
@@ -32,7 +32,7 @@ tags: [Tip, knowledge]
 
 ## 2. Active - Active
 
-![HA1_AA](/assets/img/post_img/HA1_AA.JPG "HA1_AA")
+![HA1_AA](/assets/img/post_img/HA1_AA.jpg "HA1_AA")
 
 - 동일한 두 벌의 시스템을 같이 운영하는 형태이며, 하나의 시스템에 장애가 생기면 장애가 발생하지 않은 나머지 하나의 시스템으로만 가동하는 방식
 - Active - Standby 보다 더 높은 처리량을 가질 수 있지만 장애발생 시 나머지 장비에 부하가 커져 장애 확대 우려
