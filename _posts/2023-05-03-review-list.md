@@ -34,4 +34,12 @@ tags: [Review, review]
 
 ## 6. binary search algorithm - 이진탐색 문제1 - 떡볶이 떡 만들기
 
+#
+
+## 7. Dynamic programming - 동적 프로그래밍 문제1 - 개미전사
+
+#
+
+## 8. Dynamic programming - 동적 프로그래밍 문제1 - 1로 만들기
+
 

@@ -123,8 +123,76 @@ public class Practice {
 # 다이나믹 프로그래밍 문제 1 - 개미전사
 >개미 전사는 부족한 식량을 충당하고자 메뚜기 마을의 식량창고를 공격하려고 합니다. 메뚜기 마을에는 여러 개의 식량창고가 있는데 식량창고는 일직선으로 이어져 있습니다.  
 각 식량창고에는 정해진 수의 식량을 저장하고 있으며 개미 전사는 식량창고를 선택적으로 약탈하여 식량을 빼앗을 예정입니다. 이때 메뚜기 정찰병들은 일직선상에 존재하는 식량창고 중에서 서로 인접한 식량창고가 공격받으면 바로 알아챌 수 있습니다.  
-따라서 개미 전사가 정찰병에게 들키지 않고 식량창고를 약탈하기 위해서는 최소한 한 칸 이상 떨어진 식량창고를 약탈해야 합니다.
+따라서 개미 전사가 정찰병에게 들키지 않고 식량창고를 약탈하기 위해서는 최소한 한 칸 이상 떨어진 식량창고를 약탈해야 합니다.  
+개미 전사를 위해 식량창고 N개에 대한 정보가 주어졌을 때 얻을 수 있는 식량의 최댓값을 구하는 프로그램을 작성하세요.
 
+```java
+public class Practice {
+    public static int[] d = new int[100];
+
+    public static void main(String[] args) {
+        int N;
+
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+
+        int arr[] = new int[N];
+
+        for (int i = 0; i < N; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        d[0] = arr[0];
+        d[1] = Math.max(arr[0], arr[1]);
+
+        for (int i = 2; i < N; i++) {
+            d[i] = Math.max(d[i - 1], d[i - 2] + arr[i]);
+        }
+
+        System.out.println(d[N - 1]);
+    }
+}
+```
+- Math라이브러리의 max는 두 인자중 큰 값을 기턴,작은값을 리턴하는 min도 있음
+- 점화식을 규칙성이 보이면 다이나믹 프로그래밍을 쓰는 법을 생각하자
+
+어렵다.....
+
+# 다이나믹 프로그래밍 문제 2 - 1로 만들기
+- 정수 X가 주어졌을 때, 정수 X에 사용할 수 있는 연산은 다음과 같이 4가지
+    1. X가 5로 나누어 떨어지면, 5로 나눕니다.
+    2. X가 3으로 나누어 떨어지면, 3으로 나눕니다.
+    3. X가 2로 나누어 떨어지면, 2로 나눕니다.
+    4. X에서 1을 뺍니다.
+- 정수 X가 주어졌을 때, 연산 4개를 적절히 사용해서 값을 1로 만들고자 한다. 연산을 사용하는 횟수의 최솟값을 출력하세요
+
+```java
+public class Practice {
+    public static int[] d = new int[30001];
+
+    public static void main(String[] args) {
+        int X;
+        Scanner sc = new Scanner(System.in);
+        X = sc.nextInt();
+
+        for (int i = 2; i <= X; i++) {
+            d[i] = d[i - 1] + 1;
+
+            if (i % 2 == 0) {
+                d[i] = Math.min(d[i], d[i / 2] + 1);
+            }
+            if (i % 3 == 0) {
+                d[i] = Math.min(d[i], d[i / 3] + 1);
+            }
+            if (i % 5 == 0) {
+                d[i] = Math.min(d[i], d[i / 5] + 1);
+            }
+        }
+        System.out.println(d[X]);
+    }
+}
+```
+- 아이디어는 생각나서 풀었는데 접근방식이 전혀 잘못되었다.
 
 #
 
