@@ -159,12 +159,14 @@ public class Practice {
 어렵다.....
 
 # 다이나믹 프로그래밍 문제 2 - 1로 만들기
-- 정수 X가 주어졌을 때, 정수 X에 사용할 수 있는 연산은 다음과 같이 4가지
-    1. X가 5로 나누어 떨어지면, 5로 나눕니다.
-    2. X가 3으로 나누어 떨어지면, 3으로 나눕니다.
-    3. X가 2로 나누어 떨어지면, 2로 나눕니다.
-    4. X에서 1을 뺍니다.
-- 정수 X가 주어졌을 때, 연산 4개를 적절히 사용해서 값을 1로 만들고자 한다. 연산을 사용하는 횟수의 최솟값을 출력하세요
+
+>- 정수 X가 주어졌을 때, 정수 X에 사용할 수 있는 연산은 다음과 같이 4가지
+>    1. X가 5로 나누어 떨어지면, 5로 나눕니다.
+>    2. X가 3으로 나누어 떨어지면, 3으로 나눕니다.
+>    3. X가 2로 나누어 떨어지면, 2로 나눕니다.
+>    4. X에서 1을 뺍니다.
+>- 정수 X가 주어졌을 때, 연산 4개를 적절히 사용해서 값을 1로 만들고자 한다. 연산을 사용하는 횟수의 최솟값을 출력하세요
+>
 
 ```java
 public class Practice {
@@ -194,6 +196,110 @@ public class Practice {
 ```
 - 아이디어는 생각나서 풀었는데 접근방식이 전혀 잘못되었다.
 
-#
+<br/>
+
+# 다이나믹 프로그래밍 문제 3 - 효율적인 화폐 구성
+> N가지 종류의 화폐가 있습니다. 이 화폐들의 개수를 최소한으로 이용해서 그 가치의 합이 M원이 되도록 하려고 합니다. 이때 각 종류의 화폐는 몇 개라도 사용할 수 있습니다.  
+M원을 만들기 위한 최소한의 화폐 개수를 출력하는 프로그램을 작성하세요.  
+첫째 줄에 N,M이 주어지며 이후 N개의 줄에는 각 화폐의 가치가 주어진다. 
+
+
+```java
+public class Practice {
+    public static int[] d = new int[10001];
+    public static void main(String[] args) {
+        int N,M;
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        M = sc.nextInt();
+
+        int arr[] = new int[N];
+        for(int i = 0; i<arr.length;i++){
+            arr[i] = sc.nextInt();
+        }
+
+        int d[] = new int[M+1];
+        Arrays.fill(d,10001);
+        d[0] = 0;
+        
+        for(int i = 0;i<N;i++){
+            for(int j = arr[i]; j<=M;j++){
+                
+                if(d[j - arr[i]] != 10001){
+                    d[j] = Math.min(d[j],d[j - arr[i]]+1);
+                }
+            }
+        }
+        if(d[M] == 10001){
+            System.out.println(-1);
+        }else{
+            System.out.println(d[M]);
+        }
+    }
+}
+```
+
+- Arrays.fill(arr[],n)의 경우 처음 사용해본다. 배열(arr[])과 값(n)을 인자로 넣으면 배열안의 값을 모두 n값으로 초기화 해주며 Arrays.fill(arr[],start,end,n)처럼 특정 범위의 값을 초기화도 가능하다. 
+
+<br/>
+<br/>
+
+# 다이나믹 프로그래밍 문제 4 - 금광
+>n x m 크기의 금광이 있습니다. 금광은 1 X 1크기의 칸으로 나누어져 있으며 금이 들어있습니다.  
+채굴자는 첫번째 열부터 출발하여 금을 캐기 시작합니다. 맨 처음에는 첫번째 열의 어느 행에서든 출발할 수 있습니다. 이후에 m - 1번에 걸쳐서 매번 오른쪽 위, 오른쪽, 오른쪽 아래 3가지 중 하나의 위치로 이동, 채굴자가 얻을 수 있는 금의 최대 크기를 출력하는 프로그램을 작성하세요.  
+첫째 줄에 테스트 케이스 T가 입력, 매 테스트 케이스 첫째 줄이 n과 m이 공백으로 구분되어 입력, 둘째 줄에 매장된 금의 개수가 공백으로 구분되어 입력한다.
+
+```java
+public class Practice {
+    static int t, n, m;
+    static int[][] arr = new int[20][20];
+    static int[][] dp = new int[20][20];
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        t = sc.nextInt();
+        for (int tc = 0; tc < t; tc++) {
+            n = sc.nextInt();
+            m = sc.nextInt();
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    arr[i][j] = sc.nextInt();
+                }
+            }
+
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    dp[i][j] = arr[i][j];
+                }
+            }
+
+            for (int j = 1; j < m; j++) {
+                for (int i = 0; i < n; i++) {
+                    int leftUp, leftDown, left;
+
+                    if (i == 0) leftUp = 0;
+                    else leftUp = dp[i - 1][j - 1];
+
+                    if (i == n - 1) leftDown = 0;
+                    else leftDown = dp[i + 1][j - 1];
+
+                    left = dp[i][j - 1];
+                    dp[i][j] = dp[i][j] + Math.max(leftUp, Math.max(leftDown, left));
+                }
+            }
+            int result = 0;
+            for (int i = 0; i < n; i++) {
+                result = Math.max(result, dp[i][m - 1]);
+            }
+            System.out.println(result);
+        }
+    }
+}
+```
+- 동적프로그래밍이 문제가 많기도 한데 체감상 난이도가 정말 쉽지않다....
+이번 문제의 경우 그래도 아이디어를 어느정도 내는 것에는 성공, 구현부분에서 조금 버벅였다.
+
+
 
 출처 - 나동빈 개발자님 유튜브[[https://www.youtube.com/@dongbinna](https://www.youtube.com/@dongbinna)]

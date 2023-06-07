@@ -48,7 +48,12 @@ tags: [Review, review]
 -----
 <br/>
 
-## 8. Dynamic programming - 동적 프로그래밍 문제1 - 1로 만들기
+## 8. Dynamic programming - 동적 프로그래밍 문제2 - 1로 만들기
+
+-----
+<br/>
+
+## 9. Dynamic programming - 동적 프로그래밍 문제3 - 금광
 
 -----
 <br/>
