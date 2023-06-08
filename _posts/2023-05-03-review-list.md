@@ -53,7 +53,13 @@ tags: [Review, review]
 -----
 <br/>
 
-## 9. Dynamic programming - 동적 프로그래밍 문제3 - 금광
+## 9. Dynamic programming - 동적 프로그래밍 문제4 - 금광
 
 -----
 <br/>
+
+## 10. Dynamic programming -  다이나믹 프로그래밍 문제 5 - 병사 배치하기
+
+-----
+<br/>
+

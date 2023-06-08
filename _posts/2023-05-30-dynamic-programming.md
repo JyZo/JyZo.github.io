@@ -119,7 +119,6 @@ public class Practice {
 <br/>
 
 
-
 # 다이나믹 프로그래밍 문제 1 - 개미전사
 >개미 전사는 부족한 식량을 충당하고자 메뚜기 마을의 식량창고를 공격하려고 합니다. 메뚜기 마을에는 여러 개의 식량창고가 있는데 식량창고는 일직선으로 이어져 있습니다.  
 각 식량창고에는 정해진 수의 식량을 저장하고 있으며 개미 전사는 식량창고를 선택적으로 약탈하여 식량을 빼앗을 예정입니다. 이때 메뚜기 정찰병들은 일직선상에 존재하는 식량창고 중에서 서로 인접한 식량창고가 공격받으면 바로 알아챌 수 있습니다.  
@@ -157,6 +156,9 @@ public class Practice {
 - 점화식을 규칙성이 보이면 다이나믹 프로그래밍을 쓰는 법을 생각하자
 
 어렵다.....
+
+<br/>
+<br/>
 
 # 다이나믹 프로그래밍 문제 2 - 1로 만들기
 
@@ -197,6 +199,8 @@ public class Practice {
 - 아이디어는 생각나서 풀었는데 접근방식이 전혀 잘못되었다.
 
 <br/>
+<br/>
+
 
 # 다이나믹 프로그래밍 문제 3 - 효율적인 화폐 구성
 > N가지 종류의 화폐가 있습니다. 이 화폐들의 개수를 최소한으로 이용해서 그 가치의 합이 M원이 되도록 하려고 합니다. 이때 각 종류의 화폐는 몇 개라도 사용할 수 있습니다.  
@@ -300,6 +304,58 @@ public class Practice {
 - 동적프로그래밍이 문제가 많기도 한데 체감상 난이도가 정말 쉽지않다....
 이번 문제의 경우 그래도 아이디어를 어느정도 내는 것에는 성공, 구현부분에서 조금 버벅였다.
 
+<br/>
+<br/>
 
+
+# 다이나믹 프로그래밍 문제 5 - 병사 배치하기
+> N명의 병사가 무작위로 나열되어 있습니다. 각 병사는 특정한 값의 전투력을 보유하고 있습니다.  
+병사를 배치할 때는 전투력이 높은 병사가 앞쪽에 오도록 내림차순으로 배치를 하고자 합니다.  
+또한 배치 과정에서는 특정한 위치에 있는 병사를 열외시키는 방법을 용합니다. 그러면서도 남아 있는 병사의 수가 최대가 되도록 하고 싶습니다.  
+첫째 줄에 병사 N이 주어지고 둘째 줄에 병사들의 전투력이 주어진다.
+
+```java
+public class Practice {
+    static int n;
+    static ArrayList<Integer> v = new ArrayList<Integer>();
+    static int[] dp = new int[2000];
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+
+        for (int i = 0; i < n; i++) {
+            v.add(sc.nextInt());
+        }
+        
+        Collections.reverse(v);
+        
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1;
+        }
+        
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (v.get(j) < v.get(i)) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        
+        int maxValue = 0;
+        for (int i = 0; i < n; i++) {
+            maxValue = Math.max(maxValue, dp[i]);
+        }
+        System.out.println(n - maxValue);
+    }
+}
+```
+- 기본 아이디어는 가장 긴 증가하는 부분수열(Longest Increasing Subsequence,LIS) 라고 알려진 전형적인 다이나믹 프로그래밍 문제의 아이디어와 같다. 
+- LIS알고리즘을 이용해 배열을 뒤집어 계산하는게 키포인트
+- Collections.reverse(list)는 인자로 받은 리스트의 순서를 뒤집는다. 
+
+<br/>
+<br/>
+
+------
 
 출처 - 나동빈 개발자님 유튜브[[https://www.youtube.com/@dongbinna](https://www.youtube.com/@dongbinna)]
