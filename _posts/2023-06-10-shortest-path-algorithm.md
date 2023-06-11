@@ -71,6 +71,98 @@ tags: [Algorithm, theory]
 <br/>
 
 
+```java
+public class Practice {
+    public static final int INF = (int)1e9;
+    public static int n,m,start;
+    public static ArrayList<ArrayList<Node>> graph = new ArrayList<ArrayList<Node>>();
+    public static boolean[] visted = new boolean[100001];
+    public static int[] d = new int[100001];
+    public static int getSmallestNode(){
+        int min_value = INF;
+        int index = 0;
+        for(int i = 1; i <= n; i++){
+            if(d[i] < min_value && !visted[i]){
+                min_value = d[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+    public static void dijkstra(int start){
+        d[start] = 0;
+        visted[start] = true;
+
+        for(int j = 0; j<graph.get(start).size(); j++){
+            d[graph.get(start).get(j).getIndex()] = graph.get(start).get(j).getDistance();
+        }
+
+        for(int i = 0;i<n-1; i++){
+            int now = getSmallestNode();
+            visted[now] = true;
+
+            for(int j = 0; j<graph.get(now).size(); j++){
+                int cost = d[now] + graph.get(now).get(j).getDistance();
+
+                if(cost < d[graph.get(now).get(j).getIndex()]){
+                    d[graph.get(now).get(j).getIndex()] = cost;
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        n = sc.nextInt();
+        m = sc.nextInt();
+        start = sc.nextInt();
+
+        for(int i = 0; i<= n;i++){
+            graph.add(new ArrayList<Node>());
+        }
+
+        for(int i = 0; i<m;i++){
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
+
+            graph.get(a).add(new Node(b,c));
+        }
+
+        Arrays.fill(d,INF);
+
+        dijkstra(start);
+
+        for(int i = 1; i<=n;i++){
+            if(d[i] == INF){
+                System.out.println("Infinity");
+            }else{
+                System.out.println(d[i]);
+            }
+        }
+    }
+}
+class Node{
+    private int index;
+    private int distance;
+
+    public Node(int index, int distance) {
+        this.index = index;
+        this.distance = distance;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+}
+```
+
+
 ## 다익스트라 알고리즘의 특징
 - 그리디 알고리즘 : ** 매 상황에서 방문하지 않은 가장 비용이 적은 노드를 선택해 임의의 과정을 반복
 - 단계를 거치며 **한 번 처리된 노드의 최단 거리는 고정**되어 더 이상 바뀌지 않습니다.
@@ -83,4 +175,176 @@ tags: [Algorithm, theory]
 
 
 ## 우선순위 큐(Priority Queue)
+- **우선순위가 가장 높은 데이터를 가장 먼저 삭제**하는 자료구조
 
+<br/>
+
+![priority_queue](/assets/img/post_img/priority_queue.PNG "priority_queue")
+
+
+### 힙(Heap)
+- 최솟값 또는 최댓값을 빠르게 찾아내기 위해 완전이진트리 형태로 만들어진 자료구조
+- 우선순위 큐를 구현하기 위해 사용하는 자료구조 중 하나
+- 최소 힙과 최대 힙이 존재
+- 최소힙은 부모노드의 값이 자식보다 적은 경우고 최대힙은 반대
+- 다익스트라 최단 경로 알고리즘을 포함해 다양한 알고리즘에서 사용
+
+
+## 개선된 다익스트라 알고리즘
+
+![dijkstra_improve1](/assets/img/post_img/dijkstra_improve1.PNG "dijkstra_improve1")
+<br/>
+<br/>
+
+![dijkstra_improve2](/assets/img/post_img/dijkstra_improve2.PNG "dijkstra_improve2")
+<br/>
+<br/>
+
+![dijkstra_improve3](/assets/img/post_img/dijkstra_improve3.PNG "dijkstra_improve3")
+<br/>
+<br/>
+
+![dijkstra_improve4](/assets/img/post_img/dijkstra_improve4.PNG "dijkstra_improve4")
+<br/>
+<br/>
+
+![dijkstra_improve5](/assets/img/post_img/dijkstra_improve5.PNG "dijkstra_improve5")
+<br/>
+<br/>
+
+![dijkstra_improve6](/assets/img/post_img/dijkstra_improve6.PNG "dijkstra_improve6")
+<br/>
+<br/>
+
+![dijkstra_improve7](/assets/img/post_img/dijkstra_improve7.PNG "dijkstra_improve7")
+<br/>
+<br/>
+
+![dijkstra_improve8](/assets/img/post_img/dijkstra_improve8.PNG "dijkstra_improve8")
+<br/>
+<br/>
+
+![dijkstra_improve9](/assets/img/post_img/dijkstra_improve9.PNG "dijkstra_improve9")
+<br/>
+<br/>
+
+
+
+```java
+public class Practice {
+    public static final int INF = (int)1e9;
+    public static int n,m,start;
+    public static ArrayList<ArrayList<Node>> graph = new ArrayList<ArrayList<Node>>();
+    public static boolean[] visted = new boolean[100001];
+    public static int[] d = new int[100001];
+    public static int getSmallestNode(){
+        int min_value = INF;
+        int index = 0;
+        for(int i = 1; i <= n; i++){
+            if(d[i] < min_value && !visted[i]){
+                min_value = d[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+    public static void dijkstra(int start) {
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        pq.offer(new Node(start, 0));
+        d[start] = 0;
+        while(!pq.isEmpty()) {
+
+            Node node = pq.poll();
+            int dist = node.getDistance();
+            int now = node.getIndex();
+
+            if (d[now] < dist) continue;
+
+            for (int i = 0; i < graph.get(now).size(); i++) {
+                int cost = d[now] + graph.get(now).get(i).getDistance();
+                if (cost < d[graph.get(now).get(i).getIndex()]) {
+                    d[graph.get(now).get(i).getIndex()] = cost;
+                    pq.offer(new Node(graph.get(now).get(i).getIndex(), cost));
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        n = sc.nextInt();
+        m = sc.nextInt();
+        start = sc.nextInt();
+
+        for(int i = 0; i<= n;i++){
+            graph.add(new ArrayList<Node>());
+        }
+
+        for(int i = 0; i<m;i++){
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
+
+            graph.get(a).add(new Node(b,c));
+        }
+
+        Arrays.fill(d,INF);
+
+        dijkstra(start);
+
+        for(int i = 1; i<=n;i++){
+            if(d[i] == INF){
+                System.out.println("Infinity");
+            }else{
+                System.out.println(d[i]);
+            }
+        }
+    }
+}
+class Node implements Comparable<Node> {
+    private int index;
+    private int distance;
+    public Node(int index, int distance) {
+        this.index = index;
+        this.distance = distance;
+    }
+    public int getIndex() {
+        return this.index;
+    }
+    public int getDistance() {
+        return this.distance;
+    }
+    @Override
+    public int compareTo(Node other) {
+        if (this.distance < other.distance) {
+            return -1;
+        }
+        return 1;
+    }
+}
+```
+- 개선된 다익스트라 알고리즘의 시간복잡도는 O(E $logV$ )
+- E는 간선의 수,V는 노드의 개수
+
+<br/>
+<br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/>
+<br/>
+
+------
+
+출처 - 나동빈 개발자님 유튜브[[https://www.youtube.com/@dongbinna](https://www.youtube.com/@dongbinna)]
