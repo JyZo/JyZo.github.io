@@ -416,9 +416,168 @@ public class Practice {
 }
 ```
 
+# 최단 경로 알고리즘 문제 1 - 전보
+>어떤 나라에는 N개의 도시가 있다. 그리고 각 도시는 보내고자 하는 메시지가 있는 경우, 다른 도시로 전보를 보내서 다른 도시로 해당 메시지를 전송할 수 있다.  
+X라는 도시에서 Y라는 도시로 전보를 보내고자 한다면 X에서 Y로 통하는 통로는 있지만 Y에서 X로 향하는 통로가 없다면 메시지를 보낼 수 없다.
+도시 C에서 위급상황이 발생했다. 최대한 많은 도시로 메시지를 보내고자 한다. 메시지는 도시 C에서 출발하여 각 도시 사이에 설치된 통로를 거쳐, 최대한 많이 퍼져나갈 것이다.  
+각 도시의 번호와 통로가 설치되어 있는 정보가 주어졌을 때, 도시 C에서 보낸 메시지를 받게 되는 도시의 개수는 총 몇개이며 도시들이 모두 메시지를 받는 데까지 걸리는 시간은 얼마인지 계산하는 프로그램을 작성하시오.  
 
+- 첫째 줄에 도시의 개수N, 통로의 개수 M, 메시지를 보내고자 하는 도시 C가 주어진다.
+- 둘째 줄부터 M+1번째 줄에 걸쳐서 통로에 대한 정보 X,Y,Z가 주어진다.이는 특정 도시 X에서 다른 특정 도시 Y로 이어지는 통로가 있으며, 메시지가 전달되는 시간이 Z라는 의미다.
+- 첫째 줄에 도시 C에서 보낸 메시지를 받는 도시의 총 개수와 총 걸리는 시간을 공백으로 구분하여 출력
+
+```java
+class Node implements Comparable<Node> {
+    private int index;
+    private int distance;
+
+    public Node(int index, int distance) {
+        this.index = index;
+        this.distance = distance;
+    }
+
+    public int getIndex() {
+        return this.index;
+    }
+
+    public int getDistance() {
+        return this.distance;
+    }
+
+    @Override
+    public int compareTo(Node other) {
+        if (this.distance < other.distance) {
+            return -1;
+        }
+        return 1;
+    }
+}
+
+public class Practice {
+    public static final int INF = (int) 1e9;
+    public static int n, m, start;
+    public static ArrayList<ArrayList<Node>> graph = new ArrayList<ArrayList<Node>>();
+    public static int[] d = new int[30001];
+
+    public static void dijkstra(int start) {
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        pq.offer(new Node(start, 0));
+        d[start] = 0;
+        while(!pq.isEmpty()) { 
+            Node node = pq.poll();
+            int dist = node.getDistance();  
+            int now = node.getIndex(); 
+        
+            if (d[now] < dist) continue;
+
+            for (int i = 0; i < graph.get(now).size(); i++) {
+                int cost = d[now] + graph.get(now).get(i).getDistance();
+                if (cost < d[graph.get(now).get(i).getIndex()]) {
+                    d[graph.get(now).get(i).getIndex()] = cost;
+                    pq.offer(new Node(graph.get(now).get(i).getIndex(), cost));
+                }
+            }
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        start = sc.nextInt();
+
+        for (int i = 0; i <= n; i++) {
+            graph.add(new ArrayList<Node>());
+        }
+        
+        for (int i = 0; i < m; i++) {
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            int z = sc.nextInt();
+            graph.get(x).add(new Node(y, z));
+        }
+
+        Arrays.fill(d, INF);
+        dijkstra(start);
+
+        int count = 0;
+        int maxDistance = 0;
+        for (int i = 1; i <= n; i++) {
+            if (d[i] != INF) {
+                count += 1;
+                maxDistance = Math.max(maxDistance, d[i]);
+            }
+        }
+        System.out.println((count - 1) + " " + maxDistance);
+    }
+}
+```
+
+- 문제는 어려웠지만 정작 중요한건 다익스트라 알고리즘 구현에서 약간의 응용만 들어갔을 뿐이다. 다익스트라 알고리즘을 백지구현이 가능해 져야할 것 같다.......
 <br/>
 <br/>
+
+
+# 최단 경로 알고리즘 문제 2 - 미래도시
+>미래 도시에는 1번부터 N번까지의 회사가 있는데 특정 회사끼리는 서로 도로를 통해 연결되어 있다. 방문판매원 A는 현재 1번 회사에 위치해 있으며, X번 회사에 방문해 물건을 판매하고자 한다.   
+미래 도시에서 특정 회사에 도착하기 위한 방법은 회사끼리 연결되어 있는 도로를 이용하는 방법이 유일하다. 또한 연결된 2개의 회사는 양방향으로 이동할 수 있다. 공중 미래 도시에서 특정회사와 다른 회사가 도로로 연결되어 있다면, 정확히 1만큼의 시간으로 이동할 수 있다.  
+또한 오늘 방문 판매원 A는 기대하던 소개팅에도 참석하고자 한다. 소개팅의 상대는 K번 회사에 존재한다. 방문판매원 A는 X번 회사에 가서 물건을 판매하기 전에 먼저 소개팅 상대의 회사에 찾아가서 함께 커피를 마실 예정이다. 따라서 방문 판매원 A는 1번 회사에서 출발하여 K번 회사를 방문한 뒤에 X번 회사로 가는 것이 목표다.  
+방문 판매원이 회사 사이를 이동하게 되는 최소시간을 계산하는 프로그램을 작성해라
+- 첫째 줄에 전체 회사의 개수 N과 경로의 개수 M이 공백으로 구분되어 차례대로 주어진다.
+- 둘째 줄부터 M+1번째 줄에는 연결된 두 회사의 번호가 공백으로 구분되어 주어진다. 
+- M+2번째 줄에는 X와 K가 공백으로 구분되어 차례대로 주어진다.
+- 첫째 줄에 방문 판매원 A가 K번 회사를 거쳐 X번 회사로 가는 최소 이동시간을 출력한다.
+- 만약 X번 회사에 도달할 수 없다면 -1을 출력한다.
+
+```java
+public class Practice {
+    public static final int INF = (int) 1e9;
+    public static int n, m, x, k;
+    public static int[][] graph = new int[101][101];
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        n = sc.nextInt();
+        m = sc.nextInt();
+
+        for (int i = 0; i < 101; i++) {
+            Arrays.fill(graph[i], INF);
+        }
+
+        for (int a = 1; a <= n; a++) {
+            for (int b = 1; b <= n; b++) {
+                if (a == b) graph[a][b] = 0;
+            }
+        }
+
+        for (int i = 0; i < m; i++) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            graph[a][b] = 1;
+            graph[b][a] = 1;
+        }
+
+        x = sc.nextInt();
+        k = sc.nextInt();
+
+        for (int k = 1; k <= n; k++) {
+            for (int a = 1; a <= n; a++) {
+                for (int b = 1; b <= n; b++) {
+                    graph[a][b] = Math.min(graph[a][b], graph[a][k] + graph[k][b]);
+                }
+            }
+        }
+        int distance = graph[1][k] + graph[k][x];
+
+        if (distance >= INF) {
+            System.out.println(-1);
+        }else {
+            System.out.println(distance);
+        }
+    }
+}
+```
+- 최단경로 알고리즘은 모두 알고리즘 자체를 구현하고 이해하고 익숙해지면 문제상 응용은 그렇게 많이 들어가지 않는 느낌이다. 더 이해를 높이고 익숙해지자
 
 ------
 
