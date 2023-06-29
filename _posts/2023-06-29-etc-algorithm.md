@@ -96,20 +96,87 @@ public class Practice {
 - 시간 복잡도는 O($ NloglogN $)이다.
 - 다수의 소수를 찾아야 할때 효과적으로 사용되나 각 자연수에 대한 소수 여부를 저장해야 하므로 메모리가 많이 필요
 
+<br/>
+<br/>
+
+# 투 포인터(Two Pointers)
+- **리스트에 순차적으로 접근해야 할 때 두개의 점의 위치를 기록하면서 처리**하는 알고리즘
+- 2,3,4,5,6,7일때 2~7과 비슷한 개념
+- 리스트에 담긴 데이터에 순차적으로 접근해야 할 때는 시작점과 끝점 2개의 점으로 접근할 데이터의 범위를 표현
 
 
+<br/>
 
+![two_pointer1](/assets/img/post_img/two_pointer1.PNG "two_pointer1")
 
+<br/>
+<br/>
 
+![two_pointer2](/assets/img/post_img/two_pointer2.PNG "two_pointer2")
 
+<br/>
+<br/>
 
+```java
+public class Practice {
+    public static int n = 5; 
+    public static int m = 5;
+    public static int[] arr = {1, 2, 3, 2, 5}; 
 
+    public static void main(String[] args) {
+        int cnt = 0;
+        int intervalSum = 0;
+        int end = 0;
+        
+        for (int start = 0; start < n; start++) {
+            while (intervalSum < m && end < n) {
+                intervalSum += arr[end];
+                end += 1;
+            }
+            if (intervalSum == m) {
+                cnt += 1;
+            }
+            intervalSum -= arr[start];
+        }
+        System.out.println(cnt);
+    }
+}
+```
 
+<br/>
 
+# 구간 합(Interval Sum)
 
+- 연속적으로 나열된 N개의 수가 있을 때 **특정 구간의 모든 수를 합한 값을 계산**하는 문제
 
+![interval_sum1](/assets/img/post_img/interval_sum1.PNG "interval_sum1")
 
+<br/>
+<br/>
 
+![interval_sum2](/assets/img/post_img/interval_sum2.PNG "interval_sum2")
+
+<br/>
+<br/>
+
+```java
+public class Practice {
+    public static int n = 5;
+    public static int arr[] = {10, 20, 30, 40, 50};
+    public static int[] prefixSum = new int[6];
+    public static void main(String[] args) {
+        int sumValue = 0;
+        for (int i = 0; i < n; i++) {
+            sumValue += arr[i];
+            prefixSum[i + 1] = sumValue;
+        }
+        
+        int left = 3;
+        int right = 4;
+        System.out.println(prefixSum[right] - prefixSum[left - 1]);
+    }
+}
+```
 
 
 
