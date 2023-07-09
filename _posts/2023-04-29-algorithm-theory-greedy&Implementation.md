@@ -48,7 +48,7 @@ tags: [Algorithm, theory]
 
  ```java
 public class Practice {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args)  {
         int n;
         int k;
         Scanner scanner = new Scanner(System.in);
@@ -75,7 +75,7 @@ public class Practice {
 
 ```java
 public class Practice {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         int n;
         int k;
         Scanner scanner = new Scanner(System.in);
@@ -111,7 +111,7 @@ public class Practice {
 
 ```java
 public class Practice {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args)  {
         String s;
         int result = 0;
 
@@ -155,7 +155,7 @@ result = s.charAt(0) - '0' //'0'은 아스키코드값으론 48
 
 ```java
 public class Practice {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         int N,X;
 
         Scanner scanner = new Scanner(System.in);
@@ -209,7 +209,7 @@ public class Practice {
 
 ```java
 public class Practice {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         // N을 입력받기
@@ -252,7 +252,7 @@ public class Practice {
 
 ```java
 public class Practice {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args)  {
         int N;
         int count = 0;
         int HH=24,MM=60,SS=60;
@@ -285,7 +285,7 @@ public class Practice {
 
 ```java
 public class Practice {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         String L;
         int count = 0;
 
@@ -321,9 +321,10 @@ public class Practice {
 
 ## 구현문제4 - 문자열 재정렬
 > 알파벳 대문자와 숫자(0~9)로만 구성된 문자열이 입력으로 주어집니다. 이때 모든 알파벳을 오름차순으로 정렬하여 이어서 출력한 뒤에, 그 뒤에 모든 숫자를 더한 값을 이어서 출력합니다. 
+
 ```java
 public class Practice {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         String s;
         int numTotal = 0;
         Scanner sc = new Scanner(System.in);
@@ -354,6 +355,7 @@ public class Practice {
     }
 }
 ```
+
 정답상 이문제는 마지막 줄에 숫자를 출력시에 조건이 하나 빠져있었다.
 ```java
 if(numTotal != 0){
@@ -361,6 +363,9 @@ if(numTotal != 0){
 }
 ```
 실제로 숫자값 없이 실행시키니 위에 선언된 0이 찍혀나왔고 오답이라고 봐도 무방한 판단이었다. 더 생각하자
+- 알고리즘 테스트에서는 수와 숫자를 구분하여야 한다.
+  - 수 : 10,100,1000등의 실제 정수와 같은 데이터를 의미
+  - 숫자 : 0~9 한자리 수를 의미
 
 
 #
