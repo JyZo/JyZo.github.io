@@ -138,6 +138,41 @@ public class Practice {
 
 ![DFS1](/assets/img/post_img/DFS1.gif "DFS1")
 
+<br/>
+
+![DFS2](/assets/img/post_img/DFS2.PNG "DFS2")
+
+<br/>
+
+![DFS3](/assets/img/post_img/DFS3.PNG "DFS3")
+
+<br/>
+
+![DFS4](/assets/img/post_img/DFS4.PNG "DFS4")
+
+<br/>
+
+![DFS5](/assets/img/post_img/DFS5.PNG "DFS5")
+
+<br/>
+
+![DFS6](/assets/img/post_img/DFS6.PNG "DFS6")
+
+<br/>
+
+![DFS7](/assets/img/post_img/DFS7.PNG "DFS7")
+
+<br/>
+
+![DFS8](/assets/img/post_img/DFS8.PNG "DFS8")
+
+<br/>
+
+![DFS9](/assets/img/post_img/DFS9.PNG "DFS9")
+
+<br/>
+
+
 ```java
 public class Practice {
     public static boolean[] visited = new boolean[9];
@@ -212,6 +247,36 @@ public class Practice {
 
 
 ![BFS1](/assets/img/post_img/BFS1.gif "BFS1")
+
+<br/>
+
+![BFS2](/assets/img/post_img/BFS2.PNG "BFS2")
+
+<br/>
+
+![BFS3](/assets/img/post_img/BFS3.PNG "BFS3")
+
+<br/>
+
+![BFS4](/assets/img/post_img/BFS4.PNG "BFS4")
+
+<br/>
+
+![BFS5](/assets/img/post_img/BFS5.PNG "BFS5")
+
+<br/>
+
+![BFS6](/assets/img/post_img/BFS6.PNG "BFS6")
+
+<br/>
+
+![BFS7](/assets/img/post_img/BFS7.PNG "BFS7")
+
+<br/>
+
+![BFS8](/assets/img/post_img/BFS8.PNG "BFS8")
+
+<br/>
 
 ```java
 public class Practice {
