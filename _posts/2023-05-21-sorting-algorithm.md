@@ -17,7 +17,7 @@ tags: [Algorithm, theory]
 <br/>
 
 # 선택 정렬(Selection Sort)
-- 처리되지 않은 데이터 중에서 가장 작은 데이터를 선택해 맨 앞에 있는 데이터와 바꾸는 것을 반복
+- 처리되지 않은 데이터 중에서 **가장 작은 데이터를 선택해 맨 앞에 있는 데이터와 바꾸는 것**을 반복
 
 ![selection_sort1](/assets/img/post_img/selection_sort1.PNG "selection_sort1")
 
@@ -60,7 +60,6 @@ public class Practice {
 }
 ```
 
-#
 
 선택정렬의 시간 복잡도 
 ----
@@ -125,21 +124,31 @@ public class Practice {
 - 일반적인 상황에서 가장 많이 사용
 - 병합 정렬과 더불어 대부분의 프로그래밍 언어의 정렬 라이브러리의 근간
 
-![insertion_sorting1](/assets/img/post_img/insertion_sorting1.PNG "insertion_sorting1")
+![quicksorting1](/assets/img/post_img/quicksorting1.PNG "quicksorting1")
 
 <br/>
 
-![insertion_sorting1](/assets/img/post_img/insertion_sorting1.PNG "insertion_sorting1")
+![quicksorting2](/assets/img/post_img/quicksorting2.PNG "quicksorting2")
 
 <br/>
 
-![insertion_sorting1](/assets/img/post_img/insertion_sorting1.PNG "insertion_sorting1")
+![quicksorting3](/assets/img/post_img/quicksorting3.PNG "quicksorting3")
 
 <br/>
 
-![insertion_sorting1](/assets/img/post_img/insertion_sorting1.PNG "insertion_sorting1")
+![quicksorting4](/assets/img/post_img/quicksorting4.PNG "quicksorting4")
 
 <br/>
+
+![quicksorting5](/assets/img/post_img/quicksorting5.PNG "quicksorting5")
+
+<br/>
+
+![quicksorting6](/assets/img/post_img/quicksorting6.PNG "quicksorting6")
+
+<br/>
+
+
 
 ```java
 public class Practice {
@@ -280,6 +289,7 @@ public class Practice {
 ```
 정렬 알고리즘자체는 직접 구현하는 것보다 라이브러리 구현된 것이 속도적 측면에서 훨씬 빨랐다. 물로 문제를 풀다보면 원리를 이해하고 직접 구현해야 할 일도 생길 것이기에 종류별로 포인트들을 잘 구별해 둬야겠다.
 
-#
+--------
+
 
 출처 - 나동빈 개발자님 유튜브[[https://www.youtube.com/@dongbinna](https://www.youtube.com/@dongbinna)]
