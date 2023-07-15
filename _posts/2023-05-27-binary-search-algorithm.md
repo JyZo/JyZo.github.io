@@ -61,7 +61,7 @@ public class Practice {
 ```
 <br/>
 
-#
+
 
 이진탐색 시간복잡도
 ---
@@ -136,6 +136,6 @@ int end = (int) 1e9;
 <br/>
 
 
-#
+--------
 
 출처 - 나동빈 개발자님 유튜브[[https://www.youtube.com/@dongbinna](https://www.youtube.com/@dongbinna)]
