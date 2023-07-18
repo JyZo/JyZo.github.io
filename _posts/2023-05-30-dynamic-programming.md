@@ -60,6 +60,7 @@ tags: [Algorithm, theory]
 - 코드로 보면 직관적으로 잘 구분된다.
 
 >탑다운
+
 ```java
 public class Practice {
     public static long[] d = new long[100];
@@ -80,6 +81,7 @@ public class Practice {
 ```
 
 >바텀업
+
 ```java
 public class Practice {
     public static long[] d = new long[100];

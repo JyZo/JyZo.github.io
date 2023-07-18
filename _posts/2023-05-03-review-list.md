@@ -48,6 +48,8 @@ tags: [Review, review]
 
 ## 6. binary search algorithm - 이진탐색 문제1 - 떡볶이 떡 만들기
 
+- 2023-07-18 review
+
 -----
 <br/>
 
