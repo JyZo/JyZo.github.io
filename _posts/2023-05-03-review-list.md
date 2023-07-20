@@ -55,20 +55,28 @@ tags: [Review, review]
 
 ## 7. Dynamic programming - 동적 프로그래밍 문제1 - 개미전사
 
+- 2023-07-20 review
+
 -----
 <br/>
 
 ## 8. Dynamic programming - 동적 프로그래밍 문제2 - 1로 만들기
+
+- 2023-07-20 review
 
 -----
 <br/>
 
 ## 9. Dynamic programming - 동적 프로그래밍 문제4 - 금광
 
+- 2023-07-20 review
+
 -----
 <br/>
 
 ## 10. Dynamic programming -  다이나믹 프로그래밍 문제 5 - 병사 배치하기
+
+- 2023-07-20 review
 
 -----
 <br/>
