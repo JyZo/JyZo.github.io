@@ -3,6 +3,7 @@ title: algorithm-theory-DFS&BFS
 date: 2023-05-09 22:03 +0900
 categories: [Algorithm, theory]
 tags: [Algorithm, theory]
+math: true
 ---
 
 # 그래프 탐색 알고리즘

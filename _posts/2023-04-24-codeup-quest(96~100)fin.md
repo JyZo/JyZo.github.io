@@ -4,6 +4,7 @@ date: 2023-04-24 20:16 +0900
 author: JyZo
 categories: [Algorithm, CodeUp 100]
 tags: [Algorithmm,CodeUp 100]
+math: true
 ---
 
 

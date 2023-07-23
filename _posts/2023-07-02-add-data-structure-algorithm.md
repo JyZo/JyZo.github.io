@@ -4,6 +4,7 @@ date: 2023-07-02 22:51 +0900
 author: JyZo
 categories: [Algorithm, theory]
 tags: [Algorithm, theory]
+math: true
 ---
 
 

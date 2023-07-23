@@ -4,6 +4,7 @@ author: JyZo
 date: 2023-03-26 16:57 +0900
 categories: [Tip, Blog]
 tags: [Tip]
+math: true
 ---
 
 

@@ -3,6 +3,7 @@ title: Review List
 date: 2023-05-03 21:31 +0900
 categories: [Review, review]
 tags: [Review, review]
+math: true
 ---
 
 # Review List

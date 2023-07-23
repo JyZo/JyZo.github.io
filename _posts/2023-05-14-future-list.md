@@ -3,6 +3,7 @@ title: future list
 date: 2023-05-14 22:22 +0900
 categories: [Tip, Blog]
 tags: [Tip]
+math: true
 ---
 
 # Futre List

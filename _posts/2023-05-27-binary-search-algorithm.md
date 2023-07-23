@@ -4,6 +4,7 @@ date: 2023-05-27 18:20 +0900
 author: JyZo
 categories: [Algorithm, theory]
 tags: [Algorithm, theory]
+math: true
 ---
 
 # 이진 탐색 알고리즘(Binery Search Algorithm)

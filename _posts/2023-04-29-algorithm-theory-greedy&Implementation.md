@@ -3,6 +3,7 @@ title: algorithm-theory-greedy&implementation
 date: 2023-04-29 12:21 +0900
 categories: [Algorithm, theory]
 tags: [Algorithm, theory]
+math: true
 ---
 
 # 탐욕법(Greedy Algorithm)
