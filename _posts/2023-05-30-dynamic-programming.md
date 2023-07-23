@@ -35,7 +35,7 @@ tags: [Algorithm, theory]
 >1,1,2,3,5,8,13,21,34,55..........
 
 점화식으로 표현하자면 
-> $$a_n$ = $a_{n-1}$ + $a_{n-2}$$
+> $a_n = a_{n-1} + a_{n-2}$
 이 된다.
 
 ![fibo1](/assets/img/post_img/fibo1.PNG "fibo1")
