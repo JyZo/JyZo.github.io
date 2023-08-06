@@ -34,7 +34,6 @@ public class Practice {
 ```
 
 <br/>
-<br/>
 
 ## 기본알고리즘 성능분석
 - 2부터 X-1까지의 모든 자연수에 대하여 연산을 수행
@@ -47,7 +46,6 @@ public class Practice {
 
 ![etc_algorithm1](/assets/img/post_img/etc_algorithm1.PNG "etc_algorithm1")
 
-<br/>
 <br/>
 
 ```java
@@ -111,11 +109,9 @@ public class Practice {
 ![two_pointer1](/assets/img/post_img/two_pointer1.PNG "two_pointer1")
 
 <br/>
-<br/>
 
 ![two_pointer2](/assets/img/post_img/two_pointer2.PNG "two_pointer2")
 
-<br/>
 <br/>
 
 ```java
@@ -153,11 +149,9 @@ public class Practice {
 ![interval_sum1](/assets/img/post_img/interval_sum1.PNG "interval_sum1")
 
 <br/>
-<br/>
 
 ![interval_sum2](/assets/img/post_img/interval_sum2.PNG "interval_sum2")
 
-<br/>
 <br/>
 
 ```java
@@ -178,8 +172,6 @@ public class Practice {
     }
 }
 ```
-
-
 
 
 ------
