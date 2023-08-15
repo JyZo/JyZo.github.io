@@ -213,7 +213,7 @@ class Solution {
 
 <br/>
 
-# 베스트 앨범
+# 5. 베스트 앨범
 
 스트리밍 사이트에서 장르 별로 가장 많이 재생된 노래를 두 개씩 모아 베스트 앨범을 출시하려 합니다. 노래는 고유 번호로 구분하며, 노래를 수록하는 기준은 다음과 같습니다.
 
@@ -231,4 +231,68 @@ class Solution {
 - 장르에 속한 곡이 하나라면, 하나의 곡만 선택합니다.
 - 모든 장르는 재생된 횟수가 다릅니다.
 
+```java
+class Solution {
+    public int[] solution(String[] genres, int[] plays) {
+        Map<String, Integer> map = new HashMap<>();
+        for(int i = 0; i < genres.length; i++) {
+            map.put(genres[i], map.getOrDefault(genres[i], 0) + plays[i]);
+        }
+        
+        //key값만 가져와서 genre에 넣어준다
+        ArrayList<String> genre = new ArrayList<>();
+        for(String key : map.keySet()) {
+            genre.add(key);
+        }
+        Collections.sort(genre, (o1, o2) -> map.get(o2) - map.get(o1)); //key값에 해당하는 value를 내림차순으로 정렬한다.
+        
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i = 0; i < genre.size(); i++) {
+            String g = genre.get(i);
+            
+            //해당 장르의 음악 중에서 play횟수가 가장 큰 인덱스를 찾는다
+            int max = 0;
+            int firstIdx = -1;
+            for(int j = 0; j < genres.length; j++) {
+                if(g.equals(genres[j]) && max < plays[j]) {
+                    max = plays[j];
+                    firstIdx = j;
+                }
+            }
+            
+            //해당 장르의 음악 중에서 play횟수가 두번째로 큰 인덱스를 찾는다.
+            max = 0;
+            int secondIdx = -1;
+            for(int j = 0; j < genres.length; j++) {
+                if(g.equals(genres[j]) && max < plays[j] && j != firstIdx) { 
+                    max = plays[j];
+                    secondIdx = j;
+                }
+            }
+            
+            list.add(firstIdx);
+            if(secondIdx >= 0) list.add(secondIdx); //secondIdx는 존재 할수도, 안할수도 있다.
+        }
+        
+        int[] result = new int[list.size()];
+        for(int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+        return result;
+    }
+}
+
+
+```
+
+>총 장르까지는 어렵지 않게 구하였으나 정답은 근접하지 못함
+> 내 딴에 내가 생각한 방식과 가장 흡사한 방식을 채택
+> - 장르별 총 플레이수 외에 장르별 각각의 플레이수 및 인덱스 분류 실패
+> - 맵 및 해쉬의 특성 파악 미흡
+> - 난이도가 있었던 만큼 풀이가 굉장히 다양했으며 숙지 필요
+> - 다른 분들이 사용하였던 comparable,람다식 등의 이해 향후 필요
+
+
+
+출처 - 5번문제 블로그[[https://moonsbeen.tistory.com/158](https://moonsbeen.tistory.com/158)]  
 
