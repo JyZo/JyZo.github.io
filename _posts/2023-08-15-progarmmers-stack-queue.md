@@ -70,5 +70,67 @@ public class Solution {
 
 ```java
 
+class Solution {
+    public int[] solution(int[] progresses, int[] speeds) {
+        int[] answer = {};
+        Queue<Integer> queue = new LinkedList<>();
+        ArrayList<Integer> result = new ArrayList<>();
+        ArrayList<Integer> finResult = new ArrayList<>();
+        Queue<Integer> finQueue = new LinkedList<>();
+        int firstCount = 0;
+        int secondCount = 0;
+        
+        for(int progresse : progresses){
+            queue.offer(progresse);
+        }
+        
+        for(int i = 0;i<progresses.length;i++){
+            int peekVal = queue.peek();
+            firstCount = 0;
+            System.out.println("peekVal["+peekVal+"]");
+            while(peekVal<100){
+                peekVal+=speeds[i];
+                firstCount++;
+            }
+            System.out.println("firstCount["+firstCount+"]");
+            finQueue.add(firstCount);
+            queue.poll();
+        }
+        
+        Iterator iter1 = result.iterator();
+        while(iter1.hasNext()){
+            System.out.print(iter1.next() + " ");
+        }
+        System.out.println("\n");
 
+        int chk = finQueue.peek();
+        int finCount = 0;
+        System.out.println("first chk["+chk+"]");
+        while (!finQueue.isEmpty()){
+            System.out.println("chk["+chk+"]");
+            System.out.println("peek["+finQueue.peek()+"]");
+            if(chk>=finQueue.peek()){
+                finCount++;
+                System.out.println("finCount1["+finCount+"]");
+                finQueue.poll();
+                continue;
+                
+            }else{
+                finCount++;
+                System.out.println("finCount2["+finCount+"]");
+                chk = finQueue.poll();
+                // finQueue.poll();
+                finResult.add(finCount);
+                finCount = 0;
+            }
+        }
+        
+        Iterator iter = finResult.iterator();
+        while(iter.hasNext()){
+            System.out.print(iter.next() + " ");
+        }
+        return answer;
+    }
+}
 ```
+>혹시몰라 임시 기록
