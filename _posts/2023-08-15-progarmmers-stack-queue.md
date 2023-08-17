@@ -199,7 +199,28 @@ class Solution {
 - 문자열 s는 '(' 또는 ')' 로만 이루어져 있습니다.
 
 ```java
-
+import java.util.*;
+class Solution {
+    boolean solution(String s) {
+        boolean answer = true;
+        Stack<Integer> stack = new Stack<>();
+        
+        for(int i = 0; i<s.length();i++){
+            if(String.valueOf(s.charAt(0)).equals(")") && i==0){
+                System.out.println("false");
+                answer = false;
+                break;
+            }else{
+                stack.push(s.charAt(i));
+                
+            }
+            
+            
+        }
+        
+        return answer;
+    }
+}
 ```
 
 
