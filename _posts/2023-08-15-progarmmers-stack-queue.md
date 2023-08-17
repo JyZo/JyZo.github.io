@@ -74,7 +74,6 @@ class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
         int[] answer = {};
         Queue<Integer> queue = new LinkedList<>();
-        ArrayList<Integer> result = new ArrayList<>();
         ArrayList<Integer> finResult = new ArrayList<>();
         Queue<Integer> finQueue = new LinkedList<>();
         int firstCount = 0;
@@ -96,41 +95,117 @@ class Solution {
             finQueue.add(firstCount);
             queue.poll();
         }
-        
-        Iterator iter1 = result.iterator();
-        while(iter1.hasNext()){
-            System.out.print(iter1.next() + " ");
-        }
-        System.out.println("\n");
 
-        int chk = finQueue.peek();
-        int finCount = 0;
-        System.out.println("first chk["+chk+"]");
-        while (!finQueue.isEmpty()){
-            System.out.println("chk["+chk+"]");
-            System.out.println("peek["+finQueue.peek()+"]");
-            if(chk>=finQueue.peek()){
-                finCount++;
-                System.out.println("finCount1["+finCount+"]");
-                finQueue.poll();
-                continue;
+        // Iterator iter1 = result.iterator();
+        // while(iter1.hasNext()){
+        //     System.out.print(iter1.next() + " ");
+        // }
+        // System.out.println("\n");
+
+        // int chk = finQueue.peek();
+        // int finCount = 0;
+        // System.out.println("first chk["+chk+"]");
+        
+//         while (!finQueue.isEmpty()){
+//             System.out.println("chk["+chk+"]");
+//             System.out.println("peek["+finQueue.peek()+"]");
+//             if(chk>=finQueue.peek()){
+//                 finCount++;
+//                 System.out.println("finCount1["+finCount+"]");
+//                 finQueue.poll();
+//                 // continue;
+//                 if(chk < finQueue.peek()){
+//                     finResult.add(finCount);
+//                     chk = finQueue.peek();
+//                     finCount = 1;
+//                 }
                 
-            }else{
-                finCount++;
-                System.out.println("finCount2["+finCount+"]");
-                chk = finQueue.poll();
-                // finQueue.poll();
-                finResult.add(finCount);
-                finCount = 0;
+//             }else{
+//                 finCount++;
+//                 System.out.println("finCount2["+finCount+"]");
+//                 chk = finQueue.poll();
+//                 // finQueue.poll();
+//                 finResult.add(finCount);
+//                 finCount = 1;
+//             }
+//         }
+        int x = q.poll();
+        int count = 1;
+        while (!q.isEmpty()) {
+            if (x >= q.peek()) {
+                count++;
+                q.poll();
+            } else {
+                list.add(count);
+                count = 1;
+                x = q.poll();
             }
         }
+        list.add(count);
+
         
+
         Iterator iter = finResult.iterator();
         while(iter.hasNext()){
             System.out.print(iter.next() + " ");
         }
-        return answer;
+        return finResult.stream().mapToInt(Integer::intValue).toArray();
     }
 }
 ```
->혹시몰라 임시 기록
+>정말 마지막 단계에서 조금 부족해서 정답을 깔끔히 맞추지 못했다. 풀릴듯 말듯 고민을 오래해 흔적을 남기고자 주석은 남겨본다.....ㅠ  
+>내가 생각했던 부분에서 빠진부분을 채워넣은걸 정답으로 채택했으며 개인적으로 마지막 부분은 다른분의 풀이인
+
+```java
+class Solution {
+    public int[] solution(int[] progresses, int[] speeds) {
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i=0; i<progresses.length; i++){
+            queue.add((int) (Math.ceil((100.0 - progresses[i]) / speeds[i])));
+        }
+        
+        List<Integer> answer = new ArrayList<>();
+        while (!queue.isEmpty()){
+            int day = queue.poll();
+            int cnt = 1;
+            
+            while(!queue.isEmpty() && day >= queue.peek()){
+                cnt++;
+                queue.poll();
+            }
+            answer.add(cnt);
+        }
+        
+        return answer.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
+```
+> 이렇게 처리한게 굉장히 깔끔하고 본받고 싶다고 느꼈다. 
+> 못풀었던 가장 중요한 이유는 마지막 개수 분별 할 로직 아이디어를 제대로 생각하지 못한것!
+
+<br/>
+
+# 3. 올바른 괄호
+
+괄호가 바르게 짝지어졌다는 것은 '(' 문자로 열렸으면 반드시 짝지어서 ')' 문자로 닫혀야 한다는 뜻입니다. 예를 들어
+
+- "()()" 또는 "(())()" 는 올바른 괄호입니다.
+- ")()(" 또는 "(()(" 는 올바르지 않은 괄호입니다.  
+
+'(' 또는 ')' 로만 이루어진 문자열 s가 주어졌을 때, 문자열 s가 올바른 괄호이면 true를 return 하고, 올바르지 않은 괄호이면 false를 return 하는 solution 함수를 완성해 주세요.
+
+### 제한사항
+- 문자열 s의 길이 : 100,000 이하의 자연수
+- 문자열 s는 '(' 또는 ')' 로만 이루어져 있습니다.
+
+```java
+
+```
+
+
+
+--------------------------------------------
+
+출처 - 2번문제 블로그[[https://velog.io/@kimmjieun/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EA%B8%B0%EB%8A%A5%EA%B0%9C%EB%B0%9C](https://velog.io/@kimmjieun/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EA%B8%B0%EB%8A%A5%EA%B0%9C%EB%B0%9C)]  
+
+출처 - 2번문제 블로그[[https://haruple.tistory.com/205](https://haruple.tistory.com/205]  
