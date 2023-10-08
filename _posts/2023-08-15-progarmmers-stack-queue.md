@@ -203,26 +203,27 @@ import java.util.*;
 class Solution {
     boolean solution(String s) {
         boolean answer = true;
-        Stack<Integer> stack = new Stack<>();
+        Stack<Character> stack = new Stack<>();
         
-        for(int i = 0; i<s.length();i++){
-            if(String.valueOf(s.charAt(0)).equals(")") && i==0){
-                System.out.println("false");
-                answer = false;
-                break;
-            }else{
-                stack.push(s.charAt(i));
-                
+        for(char item : s.toCharArray()){
+            if(item == '('){
+                stack.push('(');
             }
-            
-            
+            else{
+                if(!stack.isEmpty()){
+                    stack.pop();
+                }
+                else {
+                    return false;
+                }
+            }
         }
-        
-        return answer;
+
+        return stack.isEmpty()?true : false;
     }
 }
 ```
-
+위 문제의 경우 순서에 따른 괄호의 짝을 정확히 맞출 방법을 생각하지 못하여 풀지 못하였고 여러 풀이를 보던 중 가장 깔끔하여 채탱하였다.
 
 
 --------------------------------------------
@@ -230,3 +231,5 @@ class Solution {
 출처 - 2번문제 블로그[[https://velog.io/@kimmjieun/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EA%B8%B0%EB%8A%A5%EA%B0%9C%EB%B0%9C](https://velog.io/@kimmjieun/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EA%B8%B0%EB%8A%A5%EA%B0%9C%EB%B0%9C)]  
 
 출처 - 2번문제 블로그[[https://haruple.tistory.com/205](https://haruple.tistory.com/205]  
+
+출처 - 3번문제 블로그[[https://hy-ung.tistory.com/100](https://hy-ung.tistory.com/100]  
