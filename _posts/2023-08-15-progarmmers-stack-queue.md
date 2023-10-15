@@ -247,10 +247,36 @@ class Solution {
     - priorities의 가장 앞에 있으면 0, 두 번째에 있으면 1 … 과 같이 표현합니다.
 
 ```java
-
-
-
+import java.util.*;
+class Solution {
+    public int solution(int[] priorities, int location) {
+        int answer = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+		
+		for(int num : priorities) {
+			pq.add(num);
+		}
+		while(!pq.isEmpty()) {
+			for(int i=0; i<priorities.length; i++) {
+				if(priorities[i] == pq.peek()) {
+					pq.poll();
+					answer++;
+					if(i == location)
+						return answer;
+				}
+			}
+		}  
+        return answer;
+    }
+}
 ```
+문제를 풀면서 순서를 어떻게 하지 하며 방법들을 써봐도 뜻대로 안 되어서 찾아보니 이론 수업을 할 때 우선순위 큐라는 것이 존재하는 것을 너무 가볍게 봤는지 까맣게 잊고 있었다......
+
+최근 전적이 조금 좋지 않아서 아쉬워지고 있다
+
+<br/>
+
+# 5. 
 
 --------------------------------------------
 
