@@ -344,6 +344,58 @@ class Solution {
 - 문제를 풀다 시간 좀 쓰고 넘어가야지 해도 자꾸 조금만 더하면 될거 같아 투자하는 시간이 너무 길어져서 빨리 구해지지 않을 경우 칼같이 넘어가는 쪽으로 방향을 전환했다.
 - 이 문제에서 가장 큰 도움이 된 아이디어는 큐에 0을 넣어서 흐름을 만들어내지 못한것
 
+<br/>
+
+# 6. 주식 가격
+
+초 단위로 기록된 주식가격이 담긴 배열 prices가 매개변수로 주어질 때, 가격이 떨어지지 않은 기간은 몇 초인지를 return 하도록 solution 함수를 완성하세요.
+
+
+### 제한사항
+- prices의 각 가격은 1 이상 10,000 이하인 자연수입니다.
+- prices의 길이는 2 이상 100,000 이하입니다.
+
+입출력 예
+|prices|return|
+|----|----|
+|[1, 2, 3, 2, 3] | [4, 3, 1, 1, 0] |
+
+### 입출력 예 설명
+- 1초 시점의 ₩1은 끝까지 가격이 떨어지지 않았습니다.
+- 2초 시점의 ₩2은 끝까지 가격이 떨어지지 않았습니다.
+- 3초 시점의 ₩3은 1초뒤에 가격이 떨어집니다. 따라서 1초간 가격이 떨어지지 않은 것으로 봅니다.
+- 4초 시점의 ₩2은 1초간 가격이 떨어지지 않았습니다.
+- 5초 시점의 ₩3은 0초간 가격이 떨어지지 않았습니다.
+<br/>
+
+```java
+import java.util.*;
+class Solution {
+	public int[] solution(int[] prices) {
+		int[] answer = new int[prices.length];
+		Stack<Integer> stack = new Stack<>();
+
+		for (int i = 0; i < prices.length; i++) {
+			while (!stack.isEmpty() && prices[i] < prices[stack.peek()]) {
+				answer[stack.peek()] = i - stack.peek();
+				stack.pop();
+			}
+			stack.push(i);
+		}
+
+		while (!stack.isEmpty()) {
+			answer[stack.peek()] = prices.length - stack.peek() - 1;
+			stack.pop();
+		}
+		return answer;
+	}
+}
+```
+
+<br/>
+- 테스트 케이스만 간신히 통과하고 그 뒤 무참히 박살.....
+- 큐를 이용해 풀어보려했으나 실패했고 정답들을 확인결과 허무할 정도로 
+스택을 이용해 깔끔히 풀이들 하였다 
 --------------------------------------------
 
 출처 - 2번문제 블로그[[https://velog.io/@kimmjieun/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EA%B8%B0%EB%8A%A5%EA%B0%9C%EB%B0%9C](https://velog.io/@kimmjieun/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EA%B8%B0%EB%8A%A5%EA%B0%9C%EB%B0%9C)]  
