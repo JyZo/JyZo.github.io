@@ -48,5 +48,36 @@ Leo가 가진 음식의 스코빌 지수를 담은 배열 scoville과 원하는 
 <br/>
 
 ```java
-
+import java.util.*;
+class Solution {
+    public int solution(int[] scoville, int K) {
+        int answer = 0;
+        PriorityQueue<Integer> PQ = new PriorityQueue<>();
+        
+        for(int scovilleNum : scoville){
+            PQ.add(scovilleNum);
+        }
+        
+        while(PQ.peek()<K){
+            if(PQ.size() < 2){
+                return -1;
+            }
+            // System.out.println("first PQ["+PQ.peek()+"]");
+            int scovMin = PQ.poll();
+            // System.out.println("second PQ["+PQ.peek()+"]");
+            PQ.add(scovMin+(PQ.poll()*2));
+            answer++;
+        }
+        
+        return answer;
+    }
+}
 ```
+- 힙이 우선순위 큐를 사용하기위한 자료구조인걸 기억했고 제한 사항의 -1을 리턴하는 걸 놓쳐 시간이 조금 오래걸렸다.
+- 우선순위 큐는 기본적으로 자바의 경우 최소힙으로 return
+- 최대힙의 경우 Collections.reversOrder() 를 사용해 변경가능
+- comparator 인터페이스를 이용해 우선순위를 커스텀 할 수 있다고 한다. 간단 적용은 해보았지만 난이도가 올라가면 더 유용하게 쓸 일이 생길것 같다.
+
+<br/>
+
+# 2. 디스크 컨트롤러
