@@ -187,28 +187,209 @@ class Solution {
 - 문제가 아이디어만 놓고 보면 해 볼만 했으나 막상 구현하다보니 문제점들이 보였음
 - comparator관련 커스텀이 막상 적용해보려니 생각보다 안되는 부분이 많았고 이부분은 따로 찾아 공부해야할 것 같다
 - class로 생성하여 하려던 내 아이디어와 가장 비슷한 아이디어를 채택 소스코드 자체는 심플했다
+- 람다식 참조[https://khj93.tistory.com/entry/JAVA-%EB%9E%8C%EB%8B%A4%EC%8B%9DRambda%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B4%EA%B3%A0-%EC%82%AC%EC%9A%A9%EB%B2%95]
+
+- comparator 참조[https://velog.io/@robolab1902/Java-Priority-Queue-%EB%A7%A4%EA%B0%9C%EB%B3%80%EC%88%98%EC%97%90-%EB%9E%8C%EB%8B%A4%EC%8B%9D-%EC%93%B0%EB%8A%94-%EC%9D%B4%EC%9C%A0%EA%B0%80-%EB%AD%90%EC%95%BC]
+
+
 
 <br/>
 
-# 3.
+# 3. 이중우선순위큐
+이중 우선순위 큐는 다음 연산을 할 수 있는 자료구조를 말합니다.
+
+|명령어 | 수신 탑(높이) |
+|----|----|
+I  숫자 | 큐에 주어진 숫자를 삽입합니다.|
+D 1	 | 큐에서 최댓값을 삭제합니다.|
+D -1 | 큐에서 최솟값을 삭제합니다.
+
+이중 우선순위 큐가 할 연산 operations가 매개변수로 주어질 때, 모든 연산을 처리한 후 큐가 비어있으면 [0,0] 비어있지 않으면 [최댓값, 최솟값]을 return 하도록 solution 함수를 구현해주세요.
+
+### 제한사항
+- operations는 길이가 1 이상 1,000,000 이하인 문자열 배열입니다.
+- operations의 원소는 큐가 수행할 연산을 나타냅니다.
+- 원소는 “명령어 데이터” 형식으로 주어집니다.
+  - 최댓값/최솟값을 삭제하는 연산에서 최댓값/최솟값이 둘 이상인 경우, 하나만 삭제합니다.
+- 빈 큐에 데이터를 삭제하라는 연산이 주어질 경우, 해당 연산은 무시합니다.
+
+### 입출력 예
+
+	
+|operations | return |
+|----|----|
+["I 16", "I -5643", "D -1", "D 1", "D 1", "I 123", "D -1"] | [0,0]
+["I -45", "I 653", "D 1", "I -642", "I 45", "I 97", "D 1", "D -1", "I 333"]	 | [333, -45]
+
+입출력 #1
+- 16과 -5643을 삽입합니다.
+- 최솟값을 삭제합니다. -5643이 삭제되고 16이 남아있습니다.
+- 최댓값을 삭제합니다. 16이 삭제되고 이중 우선순위 큐는 비어있습니다.
+- 우선순위 큐가 비어있으므로 최댓값 삭제 연산이 무시됩니다.
+123을 삽입합니다.
+- 최솟값을 삭제합니다. 123이 삭제되고 이중 우선순위 큐는 비어있습니다.
+
+따라서 [0, 0]을 반환합니다.
+
+임출력 #2
+- 45와 653을 삽입후 최댓값(653)을 삭제합니다. -45가 남아있습니다.
+- 642, 45, 97을 삽입 후 최댓값(97), 최솟값(-642)을 삭제합니다. -45와 45가 남아있습니다. 333을 삽입합니다.
+
+이중 우선순위 큐에 -45, 45, 333이 남아있으므로, [333, -45]를 반환합니다.
 
 
+```java
+import java.util.*;
+class Solution {
+    public int[] solution(String[] operations) {
+        int[] answer = new int[2];
+        
+        PriorityQueue<Integer> minPQ = new PriorityQueue<>();
+        PriorityQueue<Integer> maxPQ = new PriorityQueue<>(Collections.reverseOrder());
+        
+        for(int i = 0; i<operations.length; i++){
+            String[] parse = operations[i].split(" ");
+            
+            if(minPQ.isEmpty() && parse[0].equals("D")){
+                continue;
+            }
+            
+            if(parse[0].equals("I")){
+                minPQ.add(Integer.parseInt(parse[1]));
+                maxPQ.add(Integer.parseInt(parse[1]));
+            }else{
+                if(parse[1].equals("-1")){
+                    int min = minPQ.poll();
+                    maxPQ.remove(min);
+                }else{
+                    int max = maxPQ.poll();
+                    minPQ.remove(max);
+                }
+            }
+        }
+        
+        if(minPQ.isEmpty() && maxPQ.isEmpty()){
+            answer[0] = 0;
+            answer[1] = 0;
+        }else{
+            answer[0] = maxPQ.poll();
+            answer[1] = minPQ.poll();
+        }
+        return answer;
+    }
+}
+```
+- 최소와 최대를 우선순위 큐 하나로만 해결하려다가 안되어서 두개를 이용하는 방식을 사용했고 초기 remove 함수의 존재를 잊어 두개를 이용하는데 잠깐 애를 먹었다.
 
+- 답을 찾던 중 Comparator를 사용한 답중 정말 처음 생각해봤던 방향의 코드가 있어 아래에 따로 기재
 
+```java
 
+class Solution {
+    public int[] solution(String[] operations) {
+        int[] answer = new int[2];
 
+        PriorityQueue<Pair> maxHeap = new PriorityQueue<>(new ComparatorDescending());
+        PriorityQueue<Pair> minHeap = new PriorityQueue<>(new ComparatorAscending());
+        boolean[] visited = new boolean[operations.length];
 
+        for(int i=0; i<operations.length; i++) {
+            String[] operationWord = operations[i].split(" ");
+            String op = operationWord[0];
+            int n = Integer.parseInt(operationWord[1]);
+            Pair p;
 
+            switch(op) {
+                case "I":
+                    p = new Pair(i, n);
+                    maxHeap.add(p);
+                    minHeap.add(p);
+                    break;
+                case "D":
+                    if(n == 1) {
+                        if(!maxHeap.isEmpty()) {
+                            p = maxHeap.peek();
+                            if(!visited[p.index]) {
+                                maxHeap.poll();
+                                visited[p.index] = true;
+                            } else {
+                                minHeap.poll();
+                            }
+                        }
+                    } else {
+                        if(!minHeap.isEmpty()) {
+                            p = minHeap.peek();
+                            if(!visited[p.index]) {
+                                minHeap.poll();
+                                visited[p.index] = true;
+                            } else {
+                                maxHeap.poll();
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
 
+        while(!maxHeap.isEmpty()) {
+            if(!visited[maxHeap.peek().index]) {
+                break;
+            } else {
+                maxHeap.poll();
+            }
+        }
 
+        while(!minHeap.isEmpty()) {
+            if(!visited[minHeap.peek().index]) {
+                break;
+            } else {
+                minHeap.poll();
+            }
+        }
 
+        answer[0] = !maxHeap.isEmpty() ? maxHeap.peek().value : 0;
+        answer[1] = !minHeap.isEmpty() ? minHeap.peek().value : 0;
 
+        return answer;
+    }
+}
 
+class Pair {
+    int index;
+    int value;
 
+    Pair(int index, int value) {
+        this.index = index;
+        this.value = value;
+    }
+}
 
+class ComparatorDescending implements Comparator<Pair> {
+    @Override
+    public int compare(Pair p1, Pair p2) {
+        if(p1.value < p2.value) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+}
 
+class ComparatorAscending implements Comparator<Pair> {
+    @Override
+    public int compare(Pair p1, Pair p2) {
+        if(p1.value < p2.value) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+}
+```
 
-
+<br/>
 
 
 
