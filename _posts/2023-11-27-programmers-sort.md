@@ -70,3 +70,90 @@ class Solution {
 <br/>
 
 # 2. 가장 큰 수
+0 또는 양의 정수가 주어졌을 때, 정수를 이어 붙여 만들 수 있는 가장 큰 수를 알아내 주세요.
+
+예를 들어, 주어진 정수가 [6, 10, 2]라면 [6102, 6210, 1062, 1026, 2610, 2106]를 만들 수 있고, 이중 가장 큰 수는 6210입니다.
+
+0 또는 양의 정수가 담긴 배열 numbers가 매개변수로 주어질 때, 순서를 재배치하여 만들 수 있는 가장 큰 수를 문자열로 바꾸어 return 하도록 solution 함수를 작성해주세요.
+
+### 제한 사항
+- numbers의 길이는 1 이상 100,000 이하입니다.
+- numbers의 원소는 0 이상 1,000 이하입니다.
+- 정답이 너무 클 수 있으니 문자열로 바꾸어 return 합니다.
+
+
+### 입출력 예
+
+|numbers | return | 
+|----|----|
+[6, 10, 2] | "6210" |
+[3, 30, 34, 5, 9] | "9534330" |
+
+
+```java
+import java.util.*;
+public class Solution {
+    public String solution(int[] numbers) {
+        String[] strnum = new String[numbers.length];
+
+        for (int i = 0; i < strnum.length; i++) {
+            strnum[i] = String.valueOf(numbers[i]);
+        }
+
+        Arrays.sort(strnum, new Comparator<String>(){
+            @Override
+            public int compare(String num1,String num2){
+                return (num2+num1).compareTo(num1+num2);
+            }
+        });
+        
+        if (strnum[0].equals("0")) {
+           return "0";
+        }
+        
+        StringBuilder answer = new StringBuilder();
+        for (int i = 0; i < strnum.length; i++) {
+            answer.append(strnum[i]);
+        }
+        
+        return answer.toString();
+    }
+}
+```
+- Arrays.sort를 사용해 정렬할 생각은 해 보았으나 comparator를 여기서도 적용가능할 생각을 못했고 처음엔 그냥 String 을 +=했으나 StringBuilder도 참고해 사용해보니 속도차가 꽤 나서 문자열은 순수 String은 덜 쓰는게 좋겠다.
+- 문제를 풀며 comparator선언 방식 외에 IDE없이 치려고하니 간결한 람다식 이해도도 더 늘여야겠다.
+
+<br/>
+
+# 3. H-Index
+H-Index는 과학자의 생산성과 영향력을 나타내는 지표입니다. 어느 과학자의 H-Index를 나타내는 값인 h를 구하려고 합니다. 위키백과1에 따르면, H-Index는 다음과 같이 구합니다.
+
+어떤 과학자가 발표한 논문 n편 중, h번 이상 인용된 논문이 h편 이상이고 나머지 논문이 h번 이하 인용되었다면 h의 최댓값이 이 과학자의 H-Index입니다.
+
+어떤 과학자가 발표한 논문의 인용 횟수를 담은 배열 citations가 매개변수로 주어질 때, 이 과학자의 H-Index를 return 하도록 solution 함수를 작성해주세요.
+
+### 제한사항
+- 과학자가 발표한 논문의 수는 1편 이상 1,000편 이하입니다.
+- 논문별 인용 횟수는 0회 이상 10,000회 이하입니다.
+
+### 입출력 예
+|citations | return | 
+|----|----|
+[3, 0, 6, 1, 5] | 3
+
+# 입출력 예 설명
+이 과학자가 발표한 논문의 수는 5편이고, 그중 3편의 논문은 3회 이상 인용되었습니다. 그리고 나머지 2편의 논문은 3회 이하 인용되었기 때문에 이 과학자의 H-Index는 3입니다.
+
+```java
+
+```
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------
+출처 - 2번문제 블로그[[https://bada744.tistory.com/93](https://bada744.tistory.com/93]  
