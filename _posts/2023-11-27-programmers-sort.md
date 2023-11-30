@@ -145,15 +145,33 @@ H-Index는 과학자의 생산성과 영향력을 나타내는 지표입니다. 
 이 과학자가 발표한 논문의 수는 5편이고, 그중 3편의 논문은 3회 이상 인용되었습니다. 그리고 나머지 2편의 논문은 3회 이하 인용되었기 때문에 이 과학자의 H-Index는 3입니다.
 
 ```java
-
+class Solution {
+    public int solution(int[] citations) {
+        int answer = 0;
+        
+        Arrays.sort(citations);
+		
+		for(int i = 0; i < citations.length; i++) {
+			int h = citations.length - i; 
+			
+			if(citations[i] >= h) {
+				answer = h;
+				break;
+			}
+		}
+        
+        return answer;
+    }
+}
 ```
+- 이 문제는 최초 h-index가 무엇인지 이해가 어려웠지만 개념을 찾아낸후 내림차순으로 하던 중 단 하나의 테스트 케이스가 통과하지 못해 아쉬웠다
+- 다른사람들을 참고한 결과 내림차순을 사용한 경우는 못 보았고 h-index설명 이해가 부족했던것 같다.
 
 
-
-
-
-
+<br/>
 
 
 -----------------------------------------------------------------
 출처 - 2번문제 블로그[[https://bada744.tistory.com/93](https://bada744.tistory.com/93]  
+
+출처 - 3번문제 블로그[[https://bada744.tistory.com/94](https://bada744.tistory.com/94]  
