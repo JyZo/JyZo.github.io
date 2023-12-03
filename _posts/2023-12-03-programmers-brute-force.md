@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Brute Force START
+title: programmers brute force
 date: 2023-12-03 22:40 +0900
 author: JyZo
 categories: [Algorithm, Problem solving]
