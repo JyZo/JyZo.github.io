@@ -97,7 +97,7 @@ class Solution {
 
 한 번에 하나의 요청만을 수행할 수 있기 때문에 각각의 작업을 요청받은 순서대로 처리하면 다음과 같이 처리 됩니다.
 
-![heapquest2](/assets/img/post_img/heapquest1.PNG "heapquest2")
+![heapquest2](/assets/img/post_img/heapquest2.PNG "heapquest2")
 
 <br/>
 
