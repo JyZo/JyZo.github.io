@@ -91,13 +91,13 @@ class Solution {
 
 와 같은 요청이 들어왔습니다. 이를 그림으로 표현하면 아래와 같습니다.
 
-![heapquest1](/assets/img/post_img/heapquest1.PNG "heapquest1")
+![heapquest1](/assets/img/post_img/heapquest1.png "heapquest1")
 
 <br/>
 
 한 번에 하나의 요청만을 수행할 수 있기 때문에 각각의 작업을 요청받은 순서대로 처리하면 다음과 같이 처리 됩니다.
 
-![heapquest2](/assets/img/post_img/heapquest2.PNG "heapquest2")
+![heapquest2](/assets/img/post_img/heapquest2.png "heapquest2")
 
 <br/>
 
@@ -109,7 +109,7 @@ class Solution {
 
 하지만 A → C → B 순서대로 처리하면
 
-![heapquest3](/assets/img/post_img/heapquest3.PNG "heapquest3")
+![heapquest3](/assets/img/post_img/heapquest3.png "heapquest3")
 
 <br/>
 
