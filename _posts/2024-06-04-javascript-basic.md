@@ -2,6 +2,10 @@
 layout: post
 title: javascript_basic
 date: 2024-06-04 01:24 +0900
+author: JyZo
+categories: [Front, React]
+tags: [Front, React]
+math: true
 ---
 
 # 1. 변수

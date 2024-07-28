@@ -2,6 +2,10 @@
 layout: post
 title: javascript-middle
 date: 2024-06-09 10:30 +0900
+author: JyZo
+categories: [Front, React]
+tags: [Front, React]
+math: true
 ---
 
 # 1. 호이스팅 & TDZ
