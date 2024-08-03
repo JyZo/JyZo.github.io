@@ -22,6 +22,7 @@ const [state, setState] = useState("초기값");
 
 - state에 상태저장, setState로 state값을 변경
 - setState로 변경할 때마다 화면이 재렌더링 된다
+- 재렌더링 시 컴포넌트 내부가 초기화
 
 ## 1.3 EX
 
@@ -117,3 +118,94 @@ export default App;
 
 - CleanUP 이란 개념은 useEffect() 에서 parameter 로 넣은 함수(위에선 timer)의 return 함수이다.
 - 컴포넌트를 update 직후 , unmount 직전 특정 작업을 원한다면 반환해 주어야 한다.
+
+# 3. useRef
+
+# 3.1 용도
+
+- 함수 컴포넌트에서 사용하면 오브젝트를 반환해준다.
+- 컴포넌트 전 라이프사이클에 존재, Unmount 되기 전까지 유지된다.
+- state와 비슷하게 저장공간으로 사용되지만, 값의 변화가 생겨도 렌더링이 발생하지 않고 그러므로 내부 변수가 변경되지 않는다.
+- state의 변화가 일어나 렌더링이 발생해도 ref값은 유지
+- DOM 요소에 접근하여
+
+# 3.2 선언
+
+```javascript
+const ref = useRef(0);
+```
+
+-
+
+# 3.3 Ex
+
+```javascript
+import "./styles.css";
+import { useState, useRef } from "react";
+
+function App() {
+  const countRef = useRef(0);
+  const [render, setRender] = useState(0);
+  let countVar = 0;
+
+  const doRendering = () => {
+    setRender(render + 1);
+  };
+
+  const increaseRef = () => {
+    countRef.current = countRef.current + 1;
+    console.log("ref:" + countRef.current);
+  };
+
+  const increaseVar = () => {
+    countVar = countVar + 1;
+    console.log("var:" + countVar);
+  };
+
+  const printResults = () => {
+    console.log(
+      "ref:" + countRef.current + ", var:" + countVar + ", state:" + render
+    );
+  };
+
+  return (
+    <div className="App">
+      <p>Var : {countVar}</p>
+      <p>Ref: {countRef.current}</p>
+      <p>State : {render}</p>
+      <button onClick={increaseVar}>Var Up</button>
+      <button onClick={increaseRef}>Ref Up</button>
+      <button onClick={doRendering}>Redering</button>
+      <button onClick={printResults}>print Result</button>
+    </div>
+  );
+}
+
+export default App;
+///
+
+function App() {
+  const inputRef = useRef();
+
+  useEffect(() => {
+    console.log(inputRef);
+    inputRef.current.focus();
+  }, []);
+
+  const login = () => {
+    alert("come come!" + inputRef.current.value);
+    inputRef.current.focus();
+  };
+
+  return (
+    <div className="App">
+      <input ref={inputRef} type="text" placeholder="username"></input>
+      <button onClick={login}>Login</button>
+    </div>
+  );
+}
+```
+
+- state와 ref 그래고 일반적인 변수의 렌더링시의 상호작용이 각각 다르다
+- ref는 변화는 감지해야하지만 렌더링을 발생시키지 않으며 상태를 유지하고 싶을 때 사용
+- DOM 요소에 접근하여 응용도 가능
