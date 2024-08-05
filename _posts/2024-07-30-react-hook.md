@@ -209,3 +209,114 @@ function App() {
 - state와 ref 그래고 일반적인 변수의 렌더링시의 상호작용이 각각 다르다
 - ref는 변화는 감지해야하지만 렌더링을 발생시키지 않으며 상태를 유지하고 싶을 때 사용
 - DOM 요소에 접근하여 응용도 가능
+
+# 4. useContext + Context API
+
+## 4.1 용도
+
+- 여러 컴포넌트로 만들어진 리액트앱은 props를 통해 부모에서 자식으로 데이터가 전달되는데 이 경우 컴포넌트들이 많아질 경우 공통 설정인 언어, 테마 등의 props도 계속 수송하면 너무 비효율적이다
+- 이럴 때 전역 데이터를 여러 컴포넌트들끼리 공유를 쉽게 해준다.
+- 사실 기본 useCotnext보다는 redux등의 외부 라이브러리를 더 많이 사용하는걸로 알고있다.
+- 단 Context를 사용하면 컴포넌트를 재사용 하기 어려워 질수 있다.
+- 공식문서상에선 Prop drilling을 피하기위해서라는 단순한 이유라면 컴포넌트 합성이 더 좋다라고 기재
+
+## 4.2 선언
+
+```javascript
+export const ThemeContext = createContext(null);
+// 1. 공유정보 보관을 위한 Context생성
+
+<ThemeContext.Provider value={{val1,val2}}>
+  <ChildComponent>
+<ThemeContext.Provider>
+
+// 2. App.js에서 Provider를 통하여 공유 할 원하는 컴포넌트 감싸기
+// 3. value를 통해 공유할 데이터 props 설정
+
+const data = useContext(ThemeContext);
+// 4. 사용할 컴포넌트에서 useContext를 사용해 필요한 Context 호출
+
+```
+
+## 4.3 EX
+
+```javascript
+import "./styles.css";
+import { useState, useRef, createContext, useContext } from "react";
+
+const ThemeContext = createContext(null);
+//선언시 null위치에 기본값설정이 가능한데 Provider로 전달값이 없을경우 기본값이 세팅된다 왠만하면 전달값을 줄것이므로 쓸일적음
+function App() {
+  const [isDark, setIsDark] = useState(false);
+
+  return (
+    <ThemeContext.Provider value={{ isDark, setIsDark }}>
+      <Page /** isDark = {isDark} setIsDark={setIsDark} */ />
+    </ThemeContext.Provider>
+  );
+}
+
+function Page({ isDark, setIsDark }) {
+  const data = useContext(ThemeContext);
+  console.log(data);
+  return (
+    <div className="page">
+      <Header /**isDark={isDark} */ />
+      <Content /**isDark={isDark} */ />
+      <Footer /**isDark={isDark} setIsDark={setIsDark} */ />
+    </div>
+  );
+}
+
+function Header(/**{isDark} */) {
+  const { isDark } = useContext(ThemeContext);
+  return (
+    <header
+      className="header"
+      style={{
+        backgroundColor: isDark ? "black" : "lightgray",
+        color: isDark ? "white" : "black",
+      }}
+    >
+      <h1>Whelcome 홍길동!</h1>
+    </header>
+  );
+}
+
+function Content(/**{isDark} */) {
+  const { isDark } = useContext(ThemeContext);
+  return (
+    <div
+      className="content"
+      style={{
+        backgroundColor: isDark ? "black" : "lightgray",
+        color: isDark ? "white" : "black",
+      }}
+    >
+      <p>홍길동님, 좋은하루 되세요</p>
+    </div>
+  );
+}
+
+function Footer(/**{isDark,setIsDark} */) {
+  const { isDark, setIsDark } = useContext(ThemeContext);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+  };
+  return (
+    <footer
+      className="footer"
+      style={{
+        backgroundColor: isDark ? "black" : "lightgray",
+      }}
+    >
+      <p>홍길동님, 좋은하루 되세요</p>
+      <button className="button" onClick={toggleTheme}>
+        Dark Mode
+      </button>
+    </footer>
+  );
+}
+export default App;
+```
