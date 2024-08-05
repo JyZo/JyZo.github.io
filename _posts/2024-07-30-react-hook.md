@@ -2,6 +2,10 @@
 layout: post
 title: react-hook
 date: 2024-07-30 00:38 +0900
+author: JyZo
+categories: [Front, React]
+tags: [Front, React]
+math: true
 ---
 
 # REACT Hook
@@ -223,19 +227,19 @@ function App() {
 ## 4.2 선언
 
 ```javascript
-export const ThemeContext = createContext(null);
+import "./styles.css";
+import { useState, useRef, createContext, useContext } from "react";
+
+const ThemeContext = createContext(null);
 // 1. 공유정보 보관을 위한 Context생성
-
-<ThemeContext.Provider value={{val1,val2}}>
-  <ChildComponent>
-<ThemeContext.Provider>
-
+<ThemeContext.Provider value={{ val1, val2 }}>
+  <ChildComponent />
+</ThemeContext.Provider>;
 // 2. App.js에서 Provider를 통하여 공유 할 원하는 컴포넌트 감싸기
 // 3. value를 통해 공유할 데이터 props 설정
 
 const data = useContext(ThemeContext);
 // 4. 사용할 컴포넌트에서 useContext를 사용해 필요한 Context 호출
-
 ```
 
 ## 4.3 EX
@@ -247,7 +251,7 @@ import { useState, useRef, createContext, useContext } from "react";
 const ThemeContext = createContext(null);
 //선언시 null위치에 기본값설정이 가능한데 Provider로 전달값이 없을경우 기본값이 세팅된다 왠만하면 전달값을 줄것이므로 쓸일적음
 function App() {
-  const [isDark, setIsDark] = useState(false);
+  // const [isDark, setIsDark] = useState(false);
 
   return (
     <ThemeContext.Provider value={{ isDark, setIsDark }}>
@@ -320,3 +324,121 @@ function Footer(/**{isDark,setIsDark} */) {
 }
 export default App;
 ```
+
+# 5. useMemo
+
+## 5.1 용도
+
+- Memoization의 약어로 동일한 값을 리턴하는 함수를 반복적으로 호출해야한다면 그 함수 값을 캐시에 저장해 재사용하는 기법
+- 함수형 컴포넌트는 함수로서 렌더링 -> 컴포넌트 함수 호출 -> 모든 내부 변수 초기화 과정을 거치는데 useMemo를 사용하면 함수 호출시 값을 저장해 재사용하게 해준다.
+
+## 5.2 선언
+
+```javascript
+const value = useMemo(() => {
+  return calculate();
+}, [item]);
+```
+
+- 첫번째 인자인 콜백함수는 메모이제이션 해줄 값을 계싼해 리턴(useMemo return 값)
+- 두번째 인자인 배열은 배열 요소값이 업데이트 될때만 콜백함수를 호출해 메모이제이션 값을 업데이트 해준다., 빈 배열이면 mount시 최초 계산된 값을 계속 사용
+
+## 5.3 EX
+
+```javascript
+import "./styles.css";
+import React, {useState, useMemo} from "react";
+
+const hardCalculate = (number) => {
+  console.log('hard cal');
+  for(let i = 0; i<9999; i++){
+    for(let j = 0; j<9999; j++){
+    }
+  }
+  return number + 10000;
+}
+const easyCalculate = (number) => {
+  console.log('easy cal');
+  return number + 1;
+}
+
+function App() {
+  const [hardNumber, setHardNumber] = useState(1);
+  const [easyNumber, setEasyNumber] = useState(1);
+
+  // const hardSum = hardCalculate(hardNumber);
+  const hardSum = useMemo(() => {
+    return hardCalculate(hardNumber);
+  },[hardNumber])
+
+  const easySum = easyCalculate(easyNumber);
+
+  return (
+    <div>
+      <h3>hard calculator</h3>
+      <input
+        type='number'
+        value={hardNumber}
+        onChange={(e) => {
+          setHardNumber(parseInt(e.target.value));
+        }}
+      />
+      <span> + 10000 = {hardSum} </span>
+
+      <h3>easy calculator</h3>
+      <input
+        type='number'
+        value={easyNumber}
+        onChange={(e) => {
+          setEasyNumber(parseInt(e.target.value));
+        }}
+      />
+      <span> + 1 = {easySum} </span>
+    </div>
+  );
+}
+export default App;
+
+//EX2
+import "./styles.css";
+import React, {useState, useMemo,useEffect} from "react";
+
+function App() {
+  const [number, setNumber] = useState(0);
+  const [isKorea, setIsKorea] = useState(true);
+
+  // const location = {
+  //   country: isKorea ? '한국' : '외국'
+  // }
+  const location = useMemo(() => {
+    return{
+      country: isKorea ? '한국' : '외국'
+    }
+  },[isKorea])
+  useEffect(() => {
+    console.log('useeffect');
+  },[location]);
+
+  return (
+    <div>
+     <h2>하루에 몇끼 먹어요?</h2>
+     <input
+      type='number'
+      value={number}
+      onChange={(e) => {
+        setNumber(e.target.value)
+      }}
+     />
+     <hr />
+     <h2>어느 나라에 있어요?</h2>
+     <p>나라 : {location.country}</p>
+     <button onClick = {() => {
+       setIsKorea(!isKorea)
+     }}>비행기타자</button>
+    </div>
+  );
+}
+export default App;
+```
+
+- EX2에서 사용 목적은 자바스크립트 자료형에는 원시타입과 객체타입이 있는데 객체 타입의 경우 실제 값이 아닌 메모리의 주소값이 저장된다, 그래서 unumber 값이 변경되어 재 렌더링될 경우 주소값이 바뀌어 의도하지 않게 useEffect가 실행, 그래서 useMemo로 주소값 재렌더링을 막아줌
