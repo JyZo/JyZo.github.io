@@ -340,7 +340,7 @@ const value = useMemo(() => {
 }, [item]);
 ```
 
-- 첫번째 인자인 콜백함수는 메모이제이션 해줄 값을 계싼해 리턴(useMemo return 값)
+- 첫번째 인자인 콜백함수는 메모이제이션 해줄 값을 계산해 리턴(useMemo return 값)
 - 두번째 인자인 배열은 배열 요소값이 업데이트 될때만 콜백함수를 호출해 메모이제이션 값을 업데이트 해준다., 빈 배열이면 mount시 최초 계산된 값을 계속 사용
 
 ## 5.3 EX
@@ -442,3 +442,108 @@ export default App;
 ```
 
 - EX2에서 사용 목적은 자바스크립트 자료형에는 원시타입과 객체타입이 있는데 객체 타입의 경우 실제 값이 아닌 메모리의 주소값이 저장된다, 그래서 unumber 값이 변경되어 재 렌더링될 경우 주소값이 바뀌어 의도하지 않게 useEffect가 실행, 그래서 useMemo로 주소값 재렌더링을 막아줌
+
+# 6. useCallback
+
+## 6.1 용도
+
+- useMemo처럼 메모이제이션을 이용해 컴포넌트 최적화가 목적이지만 약간의 차이를 지니고 있다.
+  - useMemo는 메모이제이션된 값을 반환하나 useCallback은 함수를 반환
+  - useMemo는 계산 비용이 큰 연산을 최적화하는데 자주사용(큰 데이터 가공 및 복잡한 연산),useCallback은 불필요한 함수 재생성을 방지하는데 자주 사용(자식 컴포넌트에 전달되는 함수를 최적화)
+
+## 6.2 선언
+
+```javascript
+const value = useCallback(() => {
+  return calculate();
+}, [item]);
+```
+
+- 첫번째 인자인 콜백함수는 메모이제이션 해줄 함수를 리턴
+- 두번째 인자인 배열은 배열값이 변경 될 때 함수를 다시 메모이제이션하게 해준다.
+
+## 6.3 EX
+
+```javascript
+import "./styles.css";
+import React, {useState, useCallback,useEffect} from "react";
+
+function App() {
+  const [number, setNumber] = useState(0);
+  const [toggle, setToggle] = useState(true);
+
+  const someFunction = useCallback(() =>{
+    console.log('someFunc:number:' +number);
+    return;
+  },[number]);
+
+  useEffect(() => {
+    console.log('change someFunc');
+  },[someFunction])
+
+  return (
+    <div>
+      <input
+        type='number'
+        value={number}
+        onChange={(e) => {
+          setNumber(e.target.value);
+        }}
+      />
+      <br/>
+      <button onClick={() => {
+        setToggle(!toggle);
+      }}>{toggle.toString()}</button>
+      <button onClick={someFunction}>Call someFunc</button>
+    </div>
+  );
+}
+export default App;
+
+//EX2
+import "./styles.css";
+import React, {useState, useCallback,useEffect} from "react";
+
+function App() {
+  const [size, setSize] = useState(100);
+  const [isDark,setIsDark] = useState(false);
+
+  const createBoxStyle = useCallback(() => {
+    return {
+      backgroundColor: 'pink',
+      width : size+'px',
+      height : size+'px'
+    }
+  },[size])
+
+  return (
+    <div style={{
+      background : isDark ? 'black' : 'white',
+    }}>
+      <input
+        type='number'
+        value={size}
+        onChange={(e) => {
+          setSize(e.target.value);
+        }}
+      />
+      <button onClick={() => setIsDark(!isDark)}>change theme</button>
+      <Box createBoxStyle={createBoxStyle}/>
+    </div>
+  );
+}
+
+function Box({createBoxStyle}) {
+  const [style, setStyle] = useState({});
+
+  useEffect(() => {
+    console.log('change box');
+    setStyle(createBoxStyle);
+  }, [createBoxStyle])
+  return (
+    <div style = {style}></div>
+  );
+}
+
+export default App;
+```
