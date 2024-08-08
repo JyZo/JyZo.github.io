@@ -547,3 +547,170 @@ function Box({createBoxStyle}) {
 
 export default App;
 ```
+
+# 7. useReducer
+
+## 7.1 용도
+
+- 컴포넌트의 state를 생성 및 관리를 위해 useState를 사용해왔지만 state관리를 위한 다른 hook
+- state를 생성하고 관리할 수 있게 해주는건 동일하지만 여러 하위값을 포함하는 복잡한 state를 다뤄야 할때 사용, 다음 3가지로 구성
+  - Reducer : state를 update해주는 역할
+  - Dispatch : state변경을 위해 Reducer에게 요청하는 것
+  - Action : 요청하는 행위의 내용
+
+## 7.2 선언
+
+```javascript
+const reducer = ([state, dispatch] = useReducer(reducer, initVal));
+
+const reducer = (state, action) => {};
+```
+
+- 첫번째 인자로 state, 두번째로 reducer가 만들어준 dispatch를 받는다
+- useReducer의 첫번째 인자는 reducer를 두번째 인자는 초기값을 받는다.
+- 선언한 reducer에서 state와 action을 전달받아 분기하여 처리
+
+## 7.3EX
+
+```javascript
+import "./styles.css";
+import React, {useState, useReducer} from "react";
+
+const ACTION_TYPES = {
+  deposit: 'deposit',
+  withdraw: 'withdraw'
+}
+const reducer = (state, action) => {
+  console.log('reducer start',state,action);
+  switch(action.type){
+    case ACTION_TYPES.deposit:
+      return state+action.payload;
+    case ACTION_TYPES.withdraw:
+      return state-action.payload;
+    default:
+      return state;
+  }
+}
+
+function App() {
+  const [number, setNumber] = useState(0);
+  const [money,dispatch] = useReducer(reducer, 0);
+
+  return (
+    <div>
+      <h2>useReducer 은행에 오신걸 환영합니다.</h2>
+      <p>잔고 : {money}원</p>
+      <input
+        type='number'
+        value={number}
+        onChange={(e) => {
+          setNumber(parseInt(e.target.value));
+        }}
+        step='1000'
+      />
+      <button onClick={() => {
+        dispatch({type:ACTION_TYPES.deposit, payload: number});
+      }}>예금</button>
+      <button onClick={() => {
+        dispatch({type:ACTION_TYPES.withdraw, payload: number});
+      }}>출금</button>
+    </div>
+  );
+}
+
+export default App;
+
+//EX
+import "./styles.css";
+import React, {useState, useReducer} from "react";
+
+const reducer = (state, action) => {
+  console.log('reducer start',state,action);
+  switch(action.type){
+    case 'add-student':
+      const name = action.payload.name;
+      const newStudent ={
+        id: Date.now(),
+        name: name,
+        isHere: false,
+      }
+      return {
+        count: state.count+1,
+        students: [...state.students, newStudent],
+      }
+    case 'delete-student':
+      console.log(action.payload.id);
+      return{
+        count: state.count - 1,
+        students: state.students.filter(
+          (student) => student.id !== action.payload.id
+        ),
+      }
+    case 'mark-student':
+      return{
+        count: state.count,
+        students: state.students.map(student => {
+          if(student.id === action.payload.id){
+            return {...student, isHere: !student.isHere};
+          }
+          return student;
+        })
+      }
+    default :
+      return state;
+    }
+};
+
+
+const initialState = {
+  count: 0,
+  students: [],
+};
+
+function App() {
+  const [name, setName] = useState('');
+  const [studentsInfo,dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <div>
+      <h1>출석부</h1>
+      <p>총 학생 수 : {studentsInfo.count}</p>
+      <input
+        type='text'
+        placeholder='이름을입력해주세요'
+        value={name}
+        onChange={(e) => {
+          setName(e.target.value);
+        }}
+      />
+      <button onClick={() => {
+        dispatch({type:'add-student', payload: {name}});
+      }}>추가</button>
+      {studentsInfo.students.map((student) => {
+        return <Student key={student.id} name={student.name} dispatch={dispatch} id={student.id} isHere={student.isHere}/>
+      })}
+    </div>
+  );
+}
+
+function Student({name,dispatch,id,isHere}){
+  console.log(name);
+  return(
+    <div>
+      <span style={{
+        textDecoration: isHere ? 'line-through' : 'none',
+        color: isHere ? 'gray' : 'black',
+      }}
+      onClick={() => {
+        dispatch({type: 'mark-student', payload:{id}})
+      }}>{name}</span>
+      <button onClick={() =>{
+        dispatch({type:'delete-student',payload: {id}})
+      }
+      }>삭제</button>
+    </div>
+  )
+}
+
+export default App;
+```
