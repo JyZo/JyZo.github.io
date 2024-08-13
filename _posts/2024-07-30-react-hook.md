@@ -714,3 +714,86 @@ function Student({name,dispatch,id,isHere}){
 
 export default App;
 ```
+
+# 8. React.memo
+
+## 8.1 용도
+
+- 반복이 필요없는 불필요한 렌더링이 일어나는 컴포넌트를 최적화
+- 리액트에서 제공하는 고차 컴포넌트(HOC),어떤 컴포넌트를 인자로 받아서 새로운 최적화된 컴포넌트를 반환해주는 컴포넌트
+- 자신이 받는 props의 변화가 있을때 만 렌더링 하는 방식
+- 컴포넌트가 같은 Props로 자주 렌더링 될 때, 컴포넌트가 렌더링이 될 때마다 복잡한 로직을 처리해야 할 때 최적화를 위해 사용
+
+## 8.2 선언
+
+```javascript
+//표현식
+const Child = memo(({ name }) => {});
+//선언식
+function Child(props) {}
+export default memo(Child);
+```
+
+- React.memo는 props의 변화에만 반응하며 표현식 선언식 사용방법이 약간의 차이가 있다.
+
+## 8.3 EX
+
+```javascript
+import "./styles.css";
+import React, { useState, memo, useMemo, useCallback } from "react";
+
+function App() {
+  const [parentAge, setParentAge] = useState(0);
+  // const [childAge, setChildAge] = useState(0);
+
+  const incrementParentAge = () => {
+    setParentAge(parentAge + 1);
+  };
+
+  // const incrementChildAge = () => {
+  //   setChildAge(childAge + 1);
+  // };
+
+  console.log("parent redering");
+  const name = useMemo(() => {
+    return {
+      lastName: "홍",
+      firstName: "길동",
+    };
+  }, []);
+
+  return (
+    <div
+      style={{
+        border: "2px solid navy",
+        padding: "10px",
+      }}
+    >
+      <h1>부모</h1>
+      <p>age: {parentAge}</p>
+      <button onClick={incrementParentAge}>부모 나이 증가</button>
+      {/* <button onClick={incrementChildAge}>자녀 나이 증가</button> */}
+      <Child /*name={'홍길동'} age={childAge}*/ name={name} />
+    </div>
+  );
+}
+const Child = memo(({ name }) => {
+  console.log("child redering");
+  return (
+    <div
+      style={{
+        border: "2px solid powderblue",
+        padding: "10px",
+      }}
+    >
+      <h3>자녀</h3>
+      <p>성: {name.lastName}</p>
+      <p>이름: {name.firstName}</p>
+      {/* <p>name: {name}</p> */}
+      {/* <p>age: {age}</p> */}
+    </div>
+  );
+});
+
+export default App;
+```
