@@ -893,3 +893,60 @@ function App() {
 
 export default App;
 ```
+
+# 10. useID
+
+## 9.1 용도
+
+- 고유한 ID를 만들 때 사용하는 hook
+
+## 9.2 선언
+
+```javascript
+const id = useId();
+```
+
+- 일반적인 hook사용법 처럼 import하고 사용하면 끝
+- 아무런 인자도 전달받지 않음
+
+## 9.3 EX
+
+```javascript
+import "./styles.css";
+import React, {
+  useState,
+  memo,
+  useMemo,
+  useCallback,
+  useEffect,
+  useId,
+} from "react";
+
+function App() {
+  return (
+    <div>
+      <MyInput />
+    </div>
+  );
+}
+
+function MyInput() {
+  const id = useId();
+  return (
+    <div>
+      <label htmlFor={id + "name"}>이름</label>
+      <input id={id + "name"} />
+      <br />
+      <label htmlFor={id + "age"}>이름</label>
+      <input id={id + "age"} />
+    </div>
+  );
+}
+
+export default App;
+```
+
+- useID로 만들 경우 다음과 같은 장점이 있다
+  - 항상 id값에 :을 표현하고 있는데 이 :이 포함되면 쿼리셀렉터 등이 잘 작동하지 않는데 외부 API없이 리액트로 더 나은 코드 작성 도움
+  - 컴포넌트가 렌더링 될 때마다 초기화가 되지 않아 안정감이 있다.
+  - 서버사이드 렌더링 시 서버사이드와 클라이언트사이드에서 동일한 안정적인 ID를 생성
