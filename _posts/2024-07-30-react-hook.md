@@ -797,3 +797,99 @@ const Child = memo(({ name }) => {
 
 export default App;
 ```
+
+# 9. Custom Hooks
+
+## 9.1 용도
+
+- 내가 원하는 인터페이스와 기능을 담은 Custom Hooks를 만들수있음
+- 중복된 코드를 제거하는 용도로 사용할 때 유용
+- Custom hook 안에 다른 리액트 훅들을 자유롭게 사용할 수 있으며 사용하는 컴포넌트마다 state,effect는 독립적이다.
+
+## 9.2 선언
+
+## 9.3 EX
+
+```javascript
+//분리된 커스텀 훅 js
+import {useState} from 'react';
+
+export function useInput(initialValue,submitAction){
+    const [inputValue, setInputValue] = useState(initialValue);
+
+    const handleChange = (e) =>{
+        setInputValue(e.target.value);
+    };
+
+    const handleSubmit = () =>{
+         setInputValue('');
+        submitAction(inputValue);
+    };
+
+    return [inputValue, handleChange,handleSubmit];
+}
+
+
+import "./styles.css";
+import React, { useState, memo, useMemo, useCallback } from "react";
+import {useInput} from './useInput';
+
+function displayMessage(message){
+    alert(message)
+}
+function App() {
+    const [inputValue, handleChange,handleSubmit] = useInput('',displayMessage );
+  return (
+    <div>
+      <h1>useInput</h1>
+    <input value={inputValue} onChange={handleChange} />
+        <button onClick={handleSubmit}>확인</button>
+    </div>
+  );
+}
+
+export default App;
+
+//EX2
+//분리된 커스텀 훅 js
+import {useState,useEffect} from 'react';
+export function useFetch(baseUrl, initialType) {
+    const [data,setData] = useState(null);
+
+    const fetchUrl = (type) => {
+        fetch(baseUrl + '/' + type)
+      .then((res) => res.json())
+      .then((res) =>setData(res));
+    }
+
+  useEffect(() => {
+    fetchUrl(initialType)
+  }, [])
+    return {
+        data,
+        fetchUrl,
+    };
+}
+
+import "./styles.css";
+import React, { useState, memo, useMemo, useCallback,useEffect } from "react";
+import {useFetch} from './useFetch';
+
+const baseUrl = 'https://jsonplaceholder.typicode.com';
+
+function App() {
+    const {data: userData} = useFetch(baseUrl,'users');
+    const {data: postData} = useFetch(baseUrl,'posts');
+
+  return (
+    <div>
+      <h1>User</h1>
+        {userData && <pre>{JSON.stringify(userData[0],null,2)}</pre>}
+      <h1>Post</h1>
+        {postData && <pre>{JSON.stringify(postData[0],null,2)}</pre>}
+    </div>
+  );
+}
+
+export default App;
+```
