@@ -894,13 +894,13 @@ function App() {
 export default App;
 ```
 
-# 10. useID
+# 10. useId
 
-## 9.1 용도
+## 10.1 용도
 
 - 고유한 ID를 만들 때 사용하는 hook
 
-## 9.2 선언
+## 10.2 선언
 
 ```javascript
 const id = useId();
@@ -909,7 +909,7 @@ const id = useId();
 - 일반적인 hook사용법 처럼 import하고 사용하면 끝
 - 아무런 인자도 전달받지 않음
 
-## 9.3 EX
+## 10.3 EX
 
 ```javascript
 import "./styles.css";
@@ -950,3 +950,110 @@ export default App;
   - 항상 id값에 :을 표현하고 있는데 이 :이 포함되면 쿼리셀렉터 등이 잘 작동하지 않는데 외부 API없이 리액트로 더 나은 코드 작성 도움
   - 컴포넌트가 렌더링 될 때마다 초기화가 되지 않아 안정감이 있다.
   - 서버사이드 렌더링 시 서버사이드와 클라이언트사이드에서 동일한 안정적인 ID를 생성
+
+# 11. useLayoutEffect
+
+## 11.1 용도
+
+- useEffect와 목적도 용도도 비슷하다
+- 차이점이 있다면 Effect가 실행되는 시점
+  - useEffect : 화면 업데이트 -> effect 실행, 컴포넌트가 화면에 그려진 이후 실행, 비동기적으로 실행
+  - useLayoutEffect : effect 실행 -> 화면 업데이트, 컴포넌트가 화면에 그려지기 이전에 실행, 동기적으로 실행
+- 사용자에게 보여주는 UI변화를 더 정교하게 다룰 수 있다.
+- 컴포넌트를 화면에 배치하기 전에 레이아웃 같은 UI적 계산을 해야 할 때 사용
+
+## 11.2 선언
+
+```javascript
+useLayoutEffect(() => {
+  //작업
+});
+
+useLayoutEffect(() => {
+  //작업
+}, [value]);
+```
+
+- 첫번째 인자로 콜백, 두번째 인자로 의존성 배열 useEffect와 동일
+-
+
+## 11.3 EX
+
+```javascript
+import "./styles.css";
+import React, {useState,memo,useMemo,useCallback,useEffect,useId,useLayoutEffect} from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const handleCountUpdate =() => {
+    setCount(count+1);
+  }
+
+  useLayoutEffect(() => {
+    console.log('useLayoutEffect',count);
+  },[count])
+
+  useEffect(() => {
+    console.log('useEffect',count);
+  },[count])
+
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleCountUpdate}>Update</button>
+    </div>
+  );
+}
+
+export default App;
+
+//EX
+import "./styles.css";
+import React, {useState,memo,useMemo,useCallback,useEffect,useId,useLayoutEffect,useRef} from "react";
+
+function getNumbers() {
+  return [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+}
+function App() {
+  const [numbers,setNumbers] = useState([]);
+  const ref = useRef(null);
+
+  useLayoutEffect(() => {
+    const nums = getNumbers();
+    console.log(nums);
+    setNumbers(nums);
+  }, []);
+
+  useLayoutEffect(() => {
+    if(numbers.length === 0){
+      return;
+    }
+
+    for(let i=0;i<3000000; i++){}
+
+    ref.current.scrollTop = ref.current.scrollHeight;
+  }, [numbers]);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        height: '300px',
+        border: '2px solid blue',
+        overflow: 'scroll'
+      }}
+      >
+      {numbers.map((number,idx) => (
+        <p key={idx}>{number}</p>
+      ))}
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+- EX2처럼 미리 계산을 다 끝내고 렌더링을 하기 때문에 UI를 사용자에게 바로 보여줄수 있어 딜레이가 개선된다.
