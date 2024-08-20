@@ -1057,3 +1057,97 @@ export default App;
 ```
 
 - EX2처럼 미리 계산을 다 끝내고 렌더링을 하기 때문에 UI를 사용자에게 바로 보여줄수 있어 딜레이가 개선된다.
+
+# 11. Debounce
+
+## 11.1 용도
+
+- 함수가 너무 자주 호출되는걸 방지하고, 이벤트가 발생할 때 호출횟수에 제한을 두는것
+- 이벤트가 연속적으로 발생할 때, 제일 마지막 이벤트가 발생한 후 일정시간이 지난 후에 함수를 호출
+
+## 11.2 EX
+
+```javascript
+//Debounce 커스텀 훅 분리
+import { useState, useEffect } from "react";
+export function useDebounce(value, delay) {
+  const [debouncedValue, setdebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const timerID = setTimeout(() => {
+      console.log("callback");
+      setdebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(timerID);
+    };
+  }, [value, delay]);
+  return debouncedValue;
+}
+
+import "./styles.css";
+import React, {
+  useState,
+  memo,
+  useMemo,
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+} from "react";
+import { useDebounce } from "./debounce";
+
+function fetchDataFromServer(value) {
+  if (!value) {
+    return [];
+  }
+  console.log("getdata");
+  const users = [
+    { name: "김철수", age: "16" },
+    { name: "이영희", age: "26" },
+    { name: "김민수", age: "15" },
+    { name: "홍길동", age: "20" },
+    { name: "홍민영", age: "45" },
+    { name: "김민영", age: "32" },
+  ];
+  return users.filter((user) => user.name.startsWith(value));
+}
+
+function App() {
+  const [input, setInput] = useState("");
+  const debouncedInput = useDebounce(input, 1000);
+  const [result, setResult] = useState([]);
+
+  useEffect(() => {
+    const users = fetchDataFromServer(debouncedInput);
+    setResult(users);
+    console.log(users);
+  }, [debouncedInput]);
+
+  return (
+    <div class="container">
+      <div class="search-container">
+        <input
+          placeholder="여기다 검색하세요"
+          value={input}
+          onChange={(e) => {
+            setInput(e.target.value);
+          }}
+        />
+        <ul>
+          {result.map((user) => (
+            <li key={user.name}>
+              <span>{user.name}</span>
+              <span>{user.age} 세</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
