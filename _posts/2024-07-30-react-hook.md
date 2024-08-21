@@ -131,7 +131,7 @@ export default App;
 - 컴포넌트 전 라이프사이클에 존재, Unmount 되기 전까지 유지된다.
 - state와 비슷하게 저장공간으로 사용되지만, 값의 변화가 생겨도 렌더링이 발생하지 않고 그러므로 내부 변수가 변경되지 않는다.
 - state의 변화가 일어나 렌더링이 발생해도 ref값은 유지
-- DOM 요소에 접근하여
+- DOM 요소에 접근하여 조작가능, querySelector와 비슷하다
 
 # 3.2 선언
 
@@ -1058,14 +1058,14 @@ export default App;
 
 - EX2처럼 미리 계산을 다 끝내고 렌더링을 하기 때문에 UI를 사용자에게 바로 보여줄수 있어 딜레이가 개선된다.
 
-# 11. Debounce
+# 12. Debounce
 
-## 11.1 용도
+## 12.1 용도
 
 - 함수가 너무 자주 호출되는걸 방지하고, 이벤트가 발생할 때 호출횟수에 제한을 두는것
 - 이벤트가 연속적으로 발생할 때, 제일 마지막 이벤트가 발생한 후 일정시간이 지난 후에 함수를 호출
 
-## 11.2 EX
+## 12.2 EX
 
 ```javascript
 //Debounce 커스텀 훅 분리
@@ -1087,16 +1087,7 @@ export function useDebounce(value, delay) {
 }
 
 import "./styles.css";
-import React, {
-  useState,
-  memo,
-  useMemo,
-  useCallback,
-  useEffect,
-  useId,
-  useLayoutEffect,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useId, useRef } from "react";
 import { useDebounce } from "./debounce";
 
 function fetchDataFromServer(value) {
@@ -1144,6 +1135,79 @@ function App() {
             </li>
           ))}
         </ul>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+# 13. Throttle
+
+## 13.1 용도
+
+- 함수가 한번 호출되면, 일정 시간이 지나기 전에 다시 호출되지 않도록 막는것
+
+## 13.2 EX
+
+```javascript
+//useThrottle커스텀 훅 분리
+import React, { useState, useCallback, useEffect, useRef } from "react";
+export function useThrottle(callback, delay) {
+  const lastRun = useRef(Date.now());
+
+  return () => {
+    const timeElapsed = Date.now() - lastRun.current;
+    if (timeElapsed >= delay) {
+      callback();
+      lastRun.current = Date.now();
+    }
+  };
+}
+
+import "./styles.css";
+import React, {
+  useState,
+  memo,
+  useMemo,
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+} from "react";
+import { useThrottle } from "./useThrottle";
+
+function hackLottoNumbers() {
+  console.log("hack lotto");
+  const lottoNumbers = [];
+  for (let i = 0; i < 6; i++) {
+    const number = Math.floor(Math.random() * 45) + 1;
+    lottoNumbers.push(number);
+  }
+  return lottoNumbers;
+}
+
+function App() {
+  const [lottoNumbers, setLottoNumbers] = useState([0, 0, 0, 0, 0, 0]);
+  const handleClick = useThrottle(() => {
+    const result = hackLottoNumbers();
+    setLottoNumbers(result);
+  }, 1000);
+
+  return (
+    <div class="container">
+      <h1 class="title">로또 번호 맞춰줄게</h1>
+      <button class="button" onClick={handleClick}>
+        번호 맞추기
+      </button>
+      <div class="numbers">
+        {lottoNumbers.map((number, idx) => (
+          <span key={idx} class="number">
+            {number}
+          </span>
+        ))}
       </div>
     </div>
   );
