@@ -27,6 +27,7 @@ const [state, setState] = useState("초기값");
 - state에 상태저장, setState로 state값을 변경
 - setState로 변경할 때마다 화면이 재렌더링 된다
 - 재렌더링 시 컴포넌트 내부가 초기화
+- useState초기값에 콜백함수를 넣어주면 setState로 변화가 생길때마다 렌더링되지 않게 할수 있다
 
 ## 1.3 EX
 
@@ -138,8 +139,6 @@ export default App;
 ```javascript
 const ref = useRef(0);
 ```
-
--
 
 # 3.3 Ex
 
